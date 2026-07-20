@@ -1,0 +1,9 @@
+node_modules
+.pnpm-store
+dist
+*.local
+.DS_Store
+.vitepress/cache
+.vitepress/dist
+coverage
+*.log

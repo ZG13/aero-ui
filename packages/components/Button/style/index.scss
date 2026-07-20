@@ -1,0 +1,203 @@
+@use 'sass:map';
+
+/**
+ * EpButton 样式
+ * 全部引用主题语义层 CSS 变量，随 .ep-theme-light / .ep-theme-dark 自动切换。
+ * 颜色来源：Figma Haldur Design System button 组件集。
+ */
+
+// 各类型对应的语义色 token（normal / hover / active）
+// primary 采用色阶 6/5/7；其余类型采用语义命名 main/hover/clicked。
+$button-types: (
+  'primary': (
+    'main': var(--ep-primary-6),
+    'hover': var(--ep-primary-5),
+    'active': var(--ep-primary-7),
+    'surface': var(--ep-primary-1),
+    'surface-active': var(--ep-primary-2),
+  ),
+  'success': (
+    'main': var(--ep-success-main),
+    'hover': var(--ep-success-hover),
+    'active': var(--ep-success-clicked),
+    'surface': var(--ep-success-surface),
+    'surface-active': var(--ep-success-particular),
+  ),
+  'danger': (
+    'main': var(--ep-danger-main),
+    'hover': var(--ep-danger-hover),
+    'active': var(--ep-danger-clicked),
+    'surface': var(--ep-danger-surface),
+    'surface-active': var(--ep-danger-particular),
+  ),
+  'warning': (
+    'main': var(--ep-warning-main),
+    'hover': var(--ep-warning-hover),
+    'active': var(--ep-warning-clicked),
+    'surface': var(--ep-warning-surface),
+    'surface-active': var(--ep-warning-particular),
+  ),
+  'info': (
+    'main': var(--ep-text-secondary),
+    'hover': var(--ep-text-main),
+    'active': var(--ep-text-main),
+    'surface': var(--ep-feedback-hover),
+    'surface-active': var(--ep-feedback-active),
+  ),
+);
+
+.ep-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ep-n-4);
+  border: var(--ep-stroke-main) solid transparent;
+  border-radius: var(--ep-radius-main);
+  font-family: 'PingFang SC', -apple-system, sans-serif;
+  font-weight: var(--ep-font-weight-regular);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px var(--ep-feedback-accent);
+  }
+
+  // 尺寸（padding / 字号 来自 Figma 实测）
+  &--mini {
+    padding: var(--ep-n-3) var(--ep-n-12);
+    font-size: var(--ep-n-12);
+    line-height: 1.5;
+  }
+
+  &--small {
+    padding: var(--ep-n-3) var(--ep-n-12);
+    font-size: var(--ep-n-14);
+    line-height: 1.5715;
+  }
+
+  &--middle {
+    padding: var(--ep-n-5) var(--ep-n-16);
+    font-size: var(--ep-n-14);
+    line-height: 1.5715;
+  }
+
+  &--large {
+    padding: var(--ep-n-6) var(--ep-n-20);
+    font-size: var(--ep-n-14);
+    line-height: 1.5715;
+  }
+
+  // 类型 × 样式 组合
+  @each $type, $colors in $button-types {
+    $main: map.get($colors, 'main');
+    $hover: map.get($colors, 'hover');
+    $active: map.get($colors, 'active');
+    $surface: map.get($colors, 'surface');
+    $surface-active: map.get($colors, 'surface-active');
+
+    // solid 实心
+    &--#{$type}.ep-button--solid {
+      background-color: $main;
+      border-color: $main;
+      color: var(--ep-text-white);
+
+      &:hover {
+        background-color: $hover;
+        border-color: $hover;
+      }
+
+      &:active {
+        background-color: $active;
+        border-color: $active;
+      }
+    }
+
+    // plain 描边
+    &--#{$type}.ep-button--plain {
+      background-color: transparent;
+      border-color: $main;
+      color: $main;
+
+      &:hover {
+        background-color: $surface;
+        border-color: $hover;
+        color: $hover;
+      }
+
+      &:active {
+        background-color: $surface-active;
+        border-color: $active;
+        color: $active;
+      }
+    }
+
+    // none 无底
+    &--#{$type}.ep-button--none {
+      background-color: transparent;
+      border-color: transparent;
+      color: $main;
+
+      &:hover {
+        background-color: var(--ep-feedback-hover);
+        color: $hover;
+      }
+
+      &:active {
+        background-color: var(--ep-feedback-active);
+        color: $active;
+      }
+    }
+  }
+
+  // 圆角
+  &.is-round {
+    border-radius: var(--ep-radius-full);
+  }
+
+  // 图标独占：左右内边距收敛为正方形
+  &.is-icon-only {
+    padding-left: var(--ep-n-6);
+    padding-right: var(--ep-n-6);
+  }
+
+  // 禁用 / 加载
+  &.is-disabled,
+  &.is-loading {
+    cursor: not-allowed;
+    opacity: 0.4;
+
+    &:hover,
+    &:active {
+      background-color: inherit;
+    }
+  }
+
+  &__icon,
+  &__text {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__loading {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: var(--ep-radius-full);
+    animation: ep-button-spin 0.8s linear infinite;
+  }
+}
+
+@keyframes ep-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

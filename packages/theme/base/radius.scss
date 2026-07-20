@@ -1,0 +1,13 @@
+:root,
+page,
+.wd-root-portal {
+  /* 圆角 */
+  --ep-radius-zero: var(--ep-n-0);
+  --ep-radius-small: var(--ep-n-2);
+  --ep-radius-main: var(--ep-n-4);
+  --ep-radius-large: var(--ep-n-8);
+  --ep-radius-extra-large: var(--ep-n-12);
+  --ep-radius-super-large: var(--ep-n-16);
+  --ep-radius-ultra-large: var(--ep-n-20);
+  --ep-radius-full: var(--ep-n-full);
+}

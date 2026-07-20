@@ -1,0 +1,101 @@
+@mixin light-theme-vars {
+  /* 浅色模式颜色语义变量 */
+  /* 主色 */
+  --ep-primary-1: var(--ep-blue-1);
+  --ep-primary-2: var(--ep-blue-2);
+  --ep-primary-3: var(--ep-blue-3);
+  --ep-primary-4: var(--ep-blue-4);
+  --ep-primary-5: var(--ep-blue-5);
+  --ep-primary-6: var(--ep-blue-6);
+  --ep-primary-7: var(--ep-blue-7);
+  --ep-primary-8: var(--ep-blue-8);
+  --ep-primary-9: var(--ep-blue-9);
+  --ep-primary-10: var(--ep-blue-10);
+  /* 危险色 */
+  --ep-danger-main: var(--ep-red-6);
+  --ep-danger-hover: var(--ep-red-5);
+  --ep-danger-clicked: var(--ep-red-7);
+  --ep-danger-disabled: var(--ep-red-3);
+  --ep-danger-particular: var(--ep-red-2);
+  --ep-danger-surface: var(--ep-red-1);
+  /* 成功色 */
+  --ep-success-main: var(--ep-green-6);
+  --ep-success-hover: var(--ep-green-5);
+  --ep-success-clicked: var(--ep-green-7);
+  --ep-success-disabled: var(--ep-green-3);
+  --ep-success-particular: var(--ep-green-2);
+  --ep-success-surface: var(--ep-green-1);
+  /* 警告色 */
+  --ep-warning-main: var(--ep-orange-6);
+  --ep-warning-hover: var(--ep-orange-5);
+  --ep-warning-clicked: var(--ep-orange-7);
+  --ep-warning-disabled: var(--ep-orange-3);
+  --ep-warning-particular: var(--ep-orange-2);
+  --ep-warning-surface: var(--ep-orange-1);
+  /* 中性色 */
+  /* 文字 */
+  --ep-text-main: var(--ep-coolgrey-10);
+  --ep-text-secondary: var(--ep-coolgrey-8);
+  --ep-text-auxiliary: var(--ep-coolgrey-6);
+  --ep-text-disabled: var(--ep-coolgrey-4);
+  --ep-text-placeholder: var(--ep-coolgrey-5);
+  --ep-text-white: var(--ep-base-white);
+  /* 图标 */
+  --ep-icon-main: var(--ep-coolgrey-10);
+  --ep-icon-secondary: var(--ep-coolgrey-8);
+  --ep-icon-auxiliary: var(--ep-coolgrey-6);
+  --ep-icon-disabled: var(--ep-coolgrey-4);
+  --ep-icon-placeholder: var(--ep-coolgrey-5);
+  --ep-icon-white: var(--ep-base-white);
+  /* 边框 */
+  --ep-border-extra-strong: var(--ep-coolgrey-6);
+  --ep-border-strong: var(--ep-coolgrey-4);
+  --ep-border-main: var(--ep-coolgrey-3);
+  --ep-border-light: var(--ep-coolgrey-2);
+  --ep-border-white: var(--ep-base-white);
+  --ep-border-zero: var(--ep-base-transparent);
+  /* 填充 */
+  --ep-filled-extra-strong: var(--ep-coolgrey-4);
+  --ep-filled-strong: var(--ep-coolgrey-3);
+  --ep-filled-content: var(--ep-coolgrey-2);
+  --ep-filled-bottom: var(--ep-coolgrey-1);
+  --ep-filled-oppo: var(--ep-base-white);
+  --ep-filled-zero: var(--ep-base-transparent);
+  /* 分割线 */
+  --ep-divider-main: var(--ep-opac-3_08);
+  --ep-divider-light: var(--ep-opac-2_04);
+  --ep-divider-strong: var(--ep-opac-4_15);
+  --ep-divider-white: var(--ep-base-white);
+  /* 反馈 */
+  --ep-feedback-hover: var(--ep-opac-2_04);
+  --ep-feedback-active: var(--ep-opac-3_08);
+  --ep-feedback-accent: var(--ep-blue-opac);
+  /* 填充色-透明度 */
+  --ep-opacfilled-tooltip-toast-cover: var(--ep-opac-9_75);
+  --ep-opacfilled-main-cover: var(--ep-opac-7_55);
+  --ep-opacfilled-light-cover: var(--ep-opac-6_30);
+  /* Picker View Mask */
+  --ep-picker-view-mask-start-color: var(--ep-opacwhite-10_85);
+  --ep-picker-view-mask-end-color: var(--ep-opacwhite-5_20);
+  /* 分类色 */
+  /* 黄色 */
+  --ep-classifyapplication-yellow-background: var(--ep-yellow-1);
+  --ep-classifyapplication-yellow-border: var(--ep-yellow-3);
+  --ep-classifyapplication-yellow-content: var(--ep-yellow-6);
+  /* 蓝色 */
+  --ep-classifyapplication-cyan-background: var(--ep-cyan-1);
+  --ep-classifyapplication-cyan-border: var(--ep-cyan-3);
+  --ep-classifyapplication-cyan-content: var(--ep-cyan-6);
+  /* 紫色 */
+  --ep-classifyapplication-purple-background: var(--ep-purple-1);
+  --ep-classifyapplication-purple-border: var(--ep-purple-3);
+  --ep-classifyapplication-purple-content: var(--ep-purple-6);
+  /* 靛色 */
+  --ep-classifyapplication-grape-background: var(--ep-grape-1);
+  --ep-classifyapplication-grape-border: var(--ep-grape-3);
+  --ep-classifyapplication-grape-content: var(--ep-grape-6);
+  /* 粉色 */
+  --ep-classifyapplication-pink-background: var(--ep-pink-1);
+  --ep-classifyapplication-pink-border: var(--ep-pink-3);
+  --ep-classifyapplication-pink-content: var(--ep-pink-6);
+}
