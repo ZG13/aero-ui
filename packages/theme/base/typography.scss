@@ -1,0 +1,42 @@
+/* 字号 / 行高 / 字重尺度 */
+// 字号
+$typography-size-small-00: 8px;
+$typography-size-00: 10px;
+$typography-size-01: 12px;
+$typography-size-02: 14px;
+$typography-size-03: 16px;
+$typography-size-04: 20px;
+$typography-size-05: 24px;
+$typography-size-06: 28px;
+$typography-size-07: 32px;
+$typography-size-08: 40px;
+$typography-size-09: 48px;
+$typography-size-10: 56px;
+
+// 行高
+$typography-line-height-small-00: 12px;
+$typography-line-height-00: 16px;
+$typography-line-height-01: 18px;
+$typography-line-height-02: 22px;
+$typography-line-height-03: 24px;
+$typography-line-height-04: 30px;
+$typography-line-height-05: 36px;
+$typography-line-height-06: 42px;
+$typography-line-height-07: 48px;
+$typography-line-height-08: 60px;
+$typography-line-height-09: 72px;
+$typography-line-height-10: 84px;
+
+// 字重（已去重 ultra-light 的 100px/100 重复定义，统一 italic 小写命名）
+$typography-weight-ultra-light: 100;
+$typography-weight-thin: 200;
+$typography-weight-light: 300;
+$typography-weight-regular: 400;
+$typography-weight-medium: 500;
+$typography-weight-semibold: 700;
+$typography-weight-ultra-light-italic: 100;
+$typography-weight-thin-italic: 200;
+$typography-weight-light-italic: 300;
+$typography-weight-italic: 400;
+$typography-weight-medium-italic: 500;
+$typography-weight-semibold-italic: 700;

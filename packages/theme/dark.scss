@@ -1,0 +1,166 @@
+@use './base' as *;
+
+// 语义 token —— dark 绑定（品牌色跨模式不变，中性色反转）
+.aero-theme-dark {
+  // 品牌色（跨模式不变）
+  --aero-primary-1: #{$blue-1};
+  --aero-primary-2: #{$blue-2};
+  --aero-primary-3: #{$blue-3};
+  --aero-primary-4: #{$blue-4};
+  --aero-primary-5: #{$blue-5};
+  --aero-primary-6: #{$blue-6};
+  --aero-primary-7: #{$blue-7};
+  --aero-primary-8: #{$blue-8};
+  --aero-primary-9: #{$blue-9};
+  --aero-primary-10: #{$blue-10};
+
+  --aero-success-1: #{$green-1};
+  --aero-success-2: #{$green-2};
+  --aero-success-3: #{$green-3};
+  --aero-success-4: #{$green-4};
+  --aero-success-5: #{$green-5};
+  --aero-success-6: #{$green-6};
+  --aero-success-7: #{$green-7};
+  --aero-success-8: #{$green-8};
+  --aero-success-9: #{$green-9};
+  --aero-success-10: #{$green-10};
+
+  --aero-warning-1: #{$orange-1};
+  --aero-warning-2: #{$orange-2};
+  --aero-warning-3: #{$orange-3};
+  --aero-warning-4: #{$orange-4};
+  --aero-warning-5: #{$orange-5};
+  --aero-warning-6: #{$orange-6};
+  --aero-warning-7: #{$orange-7};
+  --aero-warning-8: #{$orange-8};
+  --aero-warning-9: #{$orange-9};
+  --aero-warning-10: #{$orange-10};
+
+  --aero-danger-1: #{$red-1};
+  --aero-danger-2: #{$red-2};
+  --aero-danger-3: #{$red-3};
+  --aero-danger-4: #{$red-4};
+  --aero-danger-5: #{$red-5};
+  --aero-danger-6: #{$red-6};
+  --aero-danger-7: #{$red-7};
+  --aero-danger-8: #{$red-8};
+  --aero-danger-9: #{$red-9};
+  --aero-danger-10: #{$red-10};
+
+  --aero-link-1: #{$blue-1};
+  --aero-link-2: #{$blue-2};
+  --aero-link-3: #{$blue-3};
+  --aero-link-4: #{$blue-4};
+  --aero-link-5: #{$blue-5};
+  --aero-link-6: #{$blue-6};
+  --aero-link-7: #{$blue-7};
+  --aero-link-8: #{$blue-8};
+  --aero-link-9: #{$blue-9};
+  --aero-link-10: #{$blue-10};
+
+  // 中性色（dark 反转）
+  --aero-text-main: #{$neutralgrey-1};
+  --aero-text-secondary: #{$neutralgrey-4};
+  --aero-text-tertiary: #{$neutralgrey-5};
+  --aero-text-disabled: #{$neutralgrey-7};
+  --aero-bg-main: #{$neutralgrey-10};
+  --aero-bg-subtle: #{$neutralgrey-9};
+  --aero-border-main: #{$neutralgrey-8};
+  --aero-border-light: #{$neutralgrey-7};
+  --aero-fill-main: #{$neutralgrey-9};
+  --aero-fill-light: #{$neutralgrey-8};
+
+  // 非颜色语义（跨模式一致）
+  --aero-radius-small: #{$radius-2};
+  --aero-radius-main: #{$radius-4};
+  --aero-radius-large: #{$radius-8};
+  --aero-radius-full: #{$radius-full};
+
+  --aero-space-0: #{$number-n0};
+  --aero-space-05: #{$number-n05};
+  --aero-space-1: #{$number-n1};
+  --aero-space-2: #{$number-n2};
+  --aero-space-3: #{$number-n3};
+  --aero-space-4: #{$number-n4};
+  --aero-space-6: #{$number-n6};
+  --aero-space-8: #{$number-n8};
+  --aero-space-10: #{$number-n10};
+  --aero-space-12: #{$number-n12};
+  --aero-space-14: #{$number-n14};
+  --aero-space-16: #{$number-n16};
+  --aero-space-20: #{$number-n20};
+  --aero-space-24: #{$number-n24};
+  --aero-space-28: #{$number-n28};
+  --aero-space-32: #{$number-n32};
+  --aero-space-36: #{$number-n36};
+  --aero-space-40: #{$number-n40};
+  --aero-space-48: #{$number-n48};
+  --aero-space-56: #{$number-n56};
+  --aero-space-60: #{$number-n60};
+  --aero-space-full: #{$number-nFull};
+
+  --aero-font-family-number: #{$font-number};
+  --aero-font-family-chinese: #{$font-chinese};
+  --aero-font-family-english: #{$font-english};
+
+  --aero-typography-size-small-00: #{$typography-size-small-00};
+  --aero-typography-size-00: #{$typography-size-00};
+  --aero-typography-size-01: #{$typography-size-01};
+  --aero-typography-size-02: #{$typography-size-02};
+  --aero-typography-size-03: #{$typography-size-03};
+  --aero-typography-size-04: #{$typography-size-04};
+  --aero-typography-size-05: #{$typography-size-05};
+  --aero-typography-size-06: #{$typography-size-06};
+  --aero-typography-size-07: #{$typography-size-07};
+  --aero-typography-size-08: #{$typography-size-08};
+  --aero-typography-size-09: #{$typography-size-09};
+  --aero-typography-size-10: #{$typography-size-10};
+
+  --aero-typography-line-height-small-00: #{$typography-line-height-small-00};
+  --aero-typography-line-height-00: #{$typography-line-height-00};
+  --aero-typography-line-height-01: #{$typography-line-height-01};
+  --aero-typography-line-height-02: #{$typography-line-height-02};
+  --aero-typography-line-height-03: #{$typography-line-height-03};
+  --aero-typography-line-height-04: #{$typography-line-height-04};
+  --aero-typography-line-height-05: #{$typography-line-height-05};
+  --aero-typography-line-height-06: #{$typography-line-height-06};
+  --aero-typography-line-height-07: #{$typography-line-height-07};
+  --aero-typography-line-height-08: #{$typography-line-height-08};
+  --aero-typography-line-height-09: #{$typography-line-height-09};
+  --aero-typography-line-height-10: #{$typography-line-height-10};
+
+  --aero-typography-weight-ultra-light: #{$typography-weight-ultra-light};
+  --aero-typography-weight-thin: #{$typography-weight-thin};
+  --aero-typography-weight-light: #{$typography-weight-light};
+  --aero-typography-weight-regular: #{$typography-weight-regular};
+  --aero-typography-weight-medium: #{$typography-weight-medium};
+  --aero-typography-weight-semibold: #{$typography-weight-semibold};
+  --aero-typography-weight-ultra-light-italic: #{$typography-weight-ultra-light-italic};
+  --aero-typography-weight-thin-italic: #{$typography-weight-thin-italic};
+  --aero-typography-weight-light-italic: #{$typography-weight-light-italic};
+  --aero-typography-weight-italic: #{$typography-weight-italic};
+  --aero-typography-weight-medium-italic: #{$typography-weight-medium-italic};
+  --aero-typography-weight-semibold-italic: #{$typography-weight-semibold-italic};
+
+  --aero-opacity-zero: #{$opacity-zero};
+  --aero-opacity-disabled: #{$opacity-disabled};
+  --aero-opacity-dimmer: #{$opacity-dimmer};
+  --aero-opacity-overlay: #{$opacity-overlay};
+  --aero-opacity-main: #{$opacity-main};
+  --aero-opacity-backdrop: #{$opacity-backdrop};
+
+  --aero-stroke-0: #{$stroke-0};
+  --aero-stroke-1: #{$stroke-1};
+  --aero-stroke-2: #{$stroke-2};
+  --aero-stroke-3: #{$stroke-3};
+  --aero-stroke-4: #{$stroke-4};
+
+  --aero-insets-0: #{$insets-0};
+  --aero-insets-2: #{$insets-2};
+  --aero-insets-4: #{$insets-4};
+  --aero-insets-8: #{$insets-8};
+  --aero-insets-12: #{$insets-12};
+  --aero-insets-16: #{$insets-16};
+  --aero-insets-20: #{$insets-20};
+  --aero-insets-24: #{$insets-24};
+}

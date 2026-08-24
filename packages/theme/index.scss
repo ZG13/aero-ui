@@ -1,0 +1,4 @@
+// aero-ui 主题入口：聚合基础 token、语义变量与明暗主题，一次引入即可获得完整样式。
+@use './base';
+@use './light';
+@use './dark';

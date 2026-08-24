@@ -1,0 +1,9 @@
+// base 聚合入口：@forward 全部基础 token，供语义层一次 @use 引入
+@forward './color';
+@forward './number';
+@forward './radius';
+@forward './font';
+@forward './stroke';
+@forward './insets';
+@forward './opacity';
+@forward './typography';
