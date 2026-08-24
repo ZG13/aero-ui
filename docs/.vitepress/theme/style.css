@@ -25,3 +25,37 @@
 .aero-theme-switch:hover {
   border-color: var(--aero-primary-6, #3b82f6);
 }
+
+/*
+ * 实时演示的「显示代码」区：渲染 VitePress shiki 高亮产物（v-html 注入，无 scope 属性，
+ * 故在此全局作用域定义）。配色随站点明暗主题（.aero-theme-light / .aero-theme-dark）切换。
+ */
+.demo-block__code {
+  background-color: var(--vp-code-block-bg, var(--aero-bg-subtle, #f6f6f7));
+}
+
+.demo-block__code pre {
+  margin: 0;
+  padding: var(--aero-space-6, 16px) var(--aero-space-10, 24px);
+  overflow-x: auto;
+  background: transparent;
+}
+
+.demo-block__code code {
+  display: block;
+  width: fit-content;
+  min-width: 100%;
+  font-family: var(--vp-font-family-mono, ui-monospace, Consolas, monospace);
+  font-size: var(--vp-code-font-size, 0.875em);
+  line-height: var(--vp-code-line-height, 1.7);
+  color: var(--vp-code-block-color, inherit);
+}
+
+/* shiki 双主题：站点明暗由 .aero-theme-* 根类驱动，对应启用 --shiki-light / --shiki-dark 配色 */
+.aero-theme-light .demo-block__code span {
+  color: var(--shiki-light, inherit);
+}
+
+.aero-theme-dark .demo-block__code span {
+  color: var(--shiki-dark, inherit);
+}

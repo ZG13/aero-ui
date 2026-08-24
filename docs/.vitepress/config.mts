@@ -74,5 +74,26 @@ export default defineConfig({
         { find: /^aero-ui\/(.*)$/, replacement: `${packagesRoot}/$1` }
       ]
     }
+  },
+
+  markdown: {
+    config(md) {
+      // 将 ```vue 代码块转换为实时演示：把源码 base64 后交给全局 <DemoBlock> 组件，
+      // 由其运行时编译渲染（element-plus 风格的「效果 + 源码」展示）。
+      const renderFence = md.renderer.rules.fence!
+      md.renderer.rules.fence = (tokens, idx, options, env, self) => {
+        const token = tokens[idx]
+        if (token.info.trim() === 'vue') {
+          // 源码 + 用 VitePress 自带 shiki 高亮后的 HTML，均 base64 编码传入，
+          // 使 <DemoBlock> 的「显示代码」区获得与站内代码块一致的高亮与明暗配色。
+          const source = Buffer.from(token.content, 'utf8').toString('base64')
+          const highlighted =
+            options.highlight?.(token.content, 'vue', '') || md.utils.escapeHtml(token.content)
+          const html = Buffer.from(highlighted, 'utf8').toString('base64')
+          return `<DemoBlock source="${source}" html="${html}" />\n`
+        }
+        return renderFence(tokens, idx, options, env, self)
+      }
+    }
   }
 })

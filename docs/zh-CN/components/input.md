@@ -25,6 +25,11 @@ const value = ref('')
 <template>
   <AeroInput v-model="value" disabled />
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+const value = ref('Aero UI')
+</script>
 ```
 
 ## 可清空
@@ -35,6 +40,11 @@ const value = ref('')
 <template>
   <AeroInput v-model="value" clearable placeholder="请输入内容" />
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+const value = ref('Aero UI')
+</script>
 ```
 
 ## 尺寸
@@ -47,6 +57,11 @@ const value = ref('')
   <AeroInput v-model="value" size="main" placeholder="中尺寸" />
   <AeroInput v-model="value" size="small" placeholder="小尺寸" />
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+const value = ref('')
+</script>
 ```
 
 ## API

@@ -25,6 +25,11 @@ const value = ref('')
 <template>
   <AeroInput v-model="value" disabled />
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+const value = ref('Aero UI')
+</script>
 ```
 
 ## Clearable
@@ -35,6 +40,11 @@ const value = ref('')
 <template>
   <AeroInput v-model="value" clearable placeholder="Please enter" />
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+const value = ref('Aero UI')
+</script>
 ```
 
 ## Sizes
@@ -47,6 +57,11 @@ Control the size via `size`: `large`, `main`, or `small`.
   <AeroInput v-model="value" size="main" placeholder="Main" />
   <AeroInput v-model="value" size="small" placeholder="Small" />
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+const value = ref('')
+</script>
 ```
 
 ## API
