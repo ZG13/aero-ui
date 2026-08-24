@@ -17,7 +17,14 @@ export default defineConfig({
     target: 'es2018',
     cssCodeSplit: true,
     lib: {
-      entry: fileURLToPath(new URL('./packages/index.ts', import.meta.url)),
+      // 多入口：根 barrel（components + locale 经其可达）之外，
+      // resolver 与 hooks barrel 不在根 barrel 图中，需显式列为入口。
+      // entry 键带子路径，使 entryFileNames 的 [name] 落到 resolver/index、hooks/index。
+      entry: {
+        index: fileURLToPath(new URL('./packages/index.ts', import.meta.url)),
+        'resolver/index': fileURLToPath(new URL('./packages/resolver/index.ts', import.meta.url)),
+        'hooks/index': fileURLToPath(new URL('./packages/hooks/index.ts', import.meta.url)),
+      },
       formats: ['es', 'cjs'],
     },
     rollupOptions: {

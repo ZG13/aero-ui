@@ -29,8 +29,8 @@
   - 完成后 `AeroResolver()` 返回值符合 unplugin-vue-components 的 `resolvers` 契约，`from` 与 `./components/*` 对齐
   - _Requirements: 1.4, 4.1, 4.3_
 
-- [ ] 3. 导出与子路径对齐
-- [ ] 3.1 在 index.ts 导出 AeroResolver 并对齐 ./resolver _Blocked: foundation 单入口构建不产出 resolver JS（dist/es/resolver/index.mjs）_
+- [x] 3. 导出与子路径对齐
+- [x] 3.1 在 index.ts 导出 AeroResolver 并对齐 ./resolver
   - 在 `index.ts` 导出 `AeroResolver` 并再导出 `ResolverOptions`
   - 完成后 `import { AeroResolver } from 'aero-ui/resolver'` 可解析，对应 `dist/types/resolver/index.d.ts` / `dist/es/resolver/index.mjs` / `dist/lib/resolver/index.cjs`
   - _Requirements: 3.1, 3.2_
@@ -41,8 +41,8 @@
   - 完成后 `pnpm test` 中 resolver 相关用例通过
   - _Requirements: 1.1, 1.2, 1.3, 2.1, 2.2, 2.3, 4.1, 5.4_
 
-- [ ] 5. 验证与门禁
-- [ ] 5.1 全量质量门禁与契约校验 _Blocked: foundation 构建不产出 resolver/theme/组件样式 子路径产物_
+- [x] 5. 验证与门禁
+- [x] 5.1 全量质量门禁与契约校验
   - 执行 `pnpm typecheck`、`pnpm lint`、`pnpm format`、`pnpm test`、`pnpm build`，全部以退出码 0 通过
   - 完成后构建产出含 `resolver` 子路径产物与类型声明；校验仅含 resolver、未 import 组件/样式源码、类型无 `any`、产物不含 `unplugin-vue-components` 运行时代码
   - _Requirements: 4.2, 4.3, 5.1, 5.2, 5.3_

@@ -82,3 +82,4 @@
 - `vite.config.ts` 用 `fileURLToPath(new URL('./packages/index.ts', import.meta.url))` 而非 `__dirname`（`type: module` 下 `__dirname` 不可用）。
 - vitest 需 `passWithNoTests: true` 以通过空测试集（需求 4.4 要求退出码 0）。
 - `build.lib.formats` 会触发「will be ignored because rollupOptions.output is array」良性警告，产物正确（output 数组内各项已各自声明 format/dir/entryFileNames）。
+- 子路径导出（`./resolver` / `./hooks` / `./components/*/style/*` / `./theme/*`）需多入口 + 样式编译：`vite.config.ts` 的 `lib.entry` 已改为对象（index / resolver/index / hooks/index），`build` 脚本追加 `node scripts/build-styles.mjs` 用 `sass.compile` 编译 theme 与逐组件样式为 `dist/theme/*.css` 与 `dist/{es,lib}/components/*/style/index.css`（这些 .scss 未进组件 import 图，cssCodeSplit 无法触及）。
