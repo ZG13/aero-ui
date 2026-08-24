@@ -1,0 +1,129 @@
+# Implementation Plan
+
+## Task Format Template
+
+> **Parallel marker**：`(P)` 表示该任务与紧邻的前序任务无依赖，可并发执行。跨边界依赖用 `_Depends:` 显式声明；`_Boundary:` 标注组件边界。
+
+- [ ] 1. 建立组件目录与导出契约（以 AeroButton 为样板）
+- [ ] 1.1 建立「一个组件一个文件夹」的 AeroButton 骨架
+  - 在 `packages/components/button/` 下创建 `index.ts`、`src/Button.vue`、`style/index.scss`、`types.ts` 与 `__tests__/` 目录
+  - 完成后的目录结构与本规范 File Structure Plan 一致，空骨架可通过 vue-tsc 解析
+  - _Requirements: 1.1_
+- [ ] 1.2 定义 ButtonProps / ButtonEmits 类型契约
+  - 在 `types.ts` 定义 `type` / `size` / `disabled` / `loading` / `icon` / `nativeType` 与 `click` 事件类型，并为每个 prop 提供 JSDoc `@default` 注解
+  - 完成后 `types.ts` 无 `any`，导出 `ButtonProps` 与 `ButtonEmits`
+  - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.6, 7.2, 7.3_
+- [ ] 1.3 实现 AeroButton 组件逻辑
+  - 用 `<script setup lang="ts">` + `defineProps<T>()`（含 `withDefaults`）+ `defineEmits<T>()` 实现按钮渲染、点击事件与 `nativeType` 透传
+  - 完成后按钮在 `disabled` 或 `loading` 状态下不触发 `click`
+  - _Requirements: 2.3, 2.5, 2.6, 7.1_
+- [ ] 1.4 实现 AeroButton 样式
+  - 用 BEM 类名（`aero-button`、`aero-button__loading`、`is-disabled`、`is-loading`、`is-icon-only`）与 `--aero-*` 语义 token 编写样式
+  - 完成后样式仅引用 `--aero-*` 变量，无硬编码视觉值与基础色板
+  - _Requirements: 5.1, 5.2, 5.3_
+- [ ] 1.5 实现 AeroButton 导出与 install
+  - 在 `index.ts` 为组件附加 `install` 方法并导出 `AeroButton`，再导出 `types.ts` 类型
+  - 完成后 `import AeroButton from 'aero-ui/components/button'` 可解析且对象带 `install`（根 barrel 的 `import { AeroButton } from 'aero-ui'` 归任务 4.6 / 5.3）
+  - _Requirements: 1.2, 1.3_
+- [ ] 1.6 编写 AeroButton 单元测试
+  - 覆盖默认渲染、`type` / `size` 类名、`disabled` / `loading` 不触发 `click`、`nativeType` 映射
+  - 完成后 `pnpm test` 中 button 相关用例通过
+  - _Requirements: 2.1, 2.2, 2.3, 2.5, 7.4_
+
+- [ ] 2. 实现 AeroIcon 组件
+- [ ] 2.1 (P) 建立 AeroIcon 骨架与 IconProps 类型
+  - 在 `packages/components/icon/` 下创建 `index.ts`、`src/Icon.vue`、`style/index.scss`、`types.ts`、`__tests__/`，并定义 `name` / `size` / `color` 的 `IconProps`
+  - 完成后 `IconProps` 无 `any` 并导出
+  - _Requirements: 1.1, 4.1, 4.2, 4.3, 7.2, 7.3_
+  - _Boundary: AeroIcon_
+- [ ] 2.2 (P) 实现 AeroIcon 图标渲染
+  - 用 `<script setup lang="ts">` 实现内置图标集（`loading` / `close` / `search`）与按 `name` 渲染内联 SVG，`size` / `color`（默认 `currentColor`）控制尺寸与颜色
+  - 完成后已知 `name` 渲染对应 SVG，未知 `name` 渲染为空内容且不抛错
+  - _Requirements: 4.1, 4.2, 4.3, 4.4, 7.1_
+  - _Boundary: AeroIcon_
+- [ ] 2.3 (P) 实现 AeroIcon 导出与 install
+  - 在 `index.ts` 为组件附加 `install` 并导出 `AeroIcon`，再导出 `IconProps`
+  - 完成后 `import AeroIcon from 'aero-ui/components/icon'` 可解析且对象带 `install`
+  - _Requirements: 1.2, 1.3_
+  - _Boundary: AeroIcon_
+- [ ] 2.4 (P) 编写 AeroIcon 单元测试
+  - 覆盖已知 `name` 渲染、`size` / `color` 生效、未知 `name` 渲染为空不抛错
+  - 完成后 `pnpm test` 中 icon 相关用例通过
+  - _Requirements: 4.1, 4.2, 4.3, 4.4, 7.4_
+  - _Boundary: AeroIcon_
+
+- [ ] 3. 实现 AeroInput 组件
+- [ ] 3.1 (P) 建立 AeroInput 骨架与 InputProps / InputEmits 类型
+  - 在 `packages/components/input/` 下创建 `index.ts`、`src/Input.vue`、`style/index.scss`、`types.ts`、`__tests__/`，并定义受控值、占位符、禁用、清空、尺寸与各事件类型
+  - 完成后 `InputProps` / `InputEmits` 无 `any` 并导出
+  - _Requirements: 1.1, 3.1, 3.2, 3.3, 3.4, 3.5, 7.2, 7.3_
+  - _Boundary: AeroInput_
+- [ ] 3.2 (P) 实现 AeroInput 组件逻辑
+  - 用 `<script setup lang="ts">` 实现受控值同步、输入 / 失焦 / 聚焦事件派发与 `disabled` 禁用
+  - 完成后输入派发 `update:modelValue` 与 `input`，失焦派发 `change`，禁用时不可编辑
+  - _Requirements: 3.1, 3.3, 3.5, 7.1_
+  - _Boundary: AeroInput_
+- [ ] 3.3 (P) 实现 AeroInput 样式
+  - 用 BEM 类名（`aero-input`、`aero-input__clear`、`is-disabled`）与 `--aero-*` 语义 token 编写样式
+  - 完成后样式仅引用 `--aero-*` 变量，无硬编码视觉值与基础色板
+  - _Requirements: 5.1, 5.2, 5.3_
+  - _Boundary: AeroInput_
+- [ ] 3.4 (P) 实现 AeroInput 导出与 install
+  - 在 `index.ts` 为组件附加 `install` 并导出 `AeroInput`，再导出 `types.ts` 类型
+  - 完成后 `import AeroInput from 'aero-ui/components/input'` 可解析且对象带 `install`
+  - _Requirements: 1.2, 1.3_
+  - _Boundary: AeroInput_
+- [ ] 3.5 (P) 编写 AeroInput 单元测试
+  - 覆盖受控值同步、`update:modelValue` / `input` / `change` 事件、`disabled` 不可编辑、`clearable` 有值时展示清空入口并派发 `clear`
+  - 完成后 `pnpm test` 中 input 相关用例通过
+  - _Requirements: 3.1, 3.3, 3.4, 3.5, 7.4_
+  - _Boundary: AeroInput_
+
+- [ ] 4. 集成（图标接入、locale 文案与 barrel 聚合）
+- [ ] 4.1 将 AeroButton 的 icon 属性对接 AeroIcon
+  - 在按钮模板中按 `icon` 属性渲染 `AeroIcon`，无图标或加载中时正确切换
+  - 完成后传入 `icon` 时按钮渲染对应图标
+  - _Requirements: 2.4_
+  - _Depends: 2.3_
+- [ ] 4.2 将 AeroInput 的 clearable 清空入口对接 AeroIcon
+  - 在输入框 `clearable` 且有值时用 `AeroIcon`（`close`）渲染清空入口，点击清空并派发 `clear` 与 `update:modelValue`
+  - 完成后有值且 `clearable` 时展示清空图标，点击后受控值清空
+  - _Requirements: 3.4_
+  - _Depends: 2.3, 3.4_
+- [ ] 4.3 通过 useLocale 接入组件内置文案
+  - 在 `AeroButton`（加载文案）与 `AeroInput`（默认占位符）中通过 `useLocale` 获取翻译函数并消费 `components.*` key
+  - 完成后切换语言时组件内置文案随 `useLocale` 响应式更新
+  - _Requirements: 3.2, 6.1, 6.2_
+  - _Depends: 1.3, 3.2_
+- [ ] 4.4 在 zh-cn / en 语言包中补充组件文案 key
+  - 在 `packages/locale/lang/zh-cn.ts` 与 `en.ts` 追加 `components.button.loading`、`components.input.placeholder` 的中英文案
+  - 完成后两种语言包均含上述 key，且 `satisfies LanguagePack` 类型检查通过
+  - _Requirements: 6.3_
+
+- [ ] 4.5 建立 `packages/components/index.ts` 组件 barrel
+  - 在 `packages/components/index.ts` 中 re-export 三个组件：`export * from './button'`、`export * from './input'`、`export * from './icon'`（具名导出 `AeroButton` / `AeroInput` / `AeroIcon` 及其类型）
+  - 完成后 `import { AeroButton, AeroInput, AeroIcon } from 'aero-ui/components'` 均可解析
+  - _Requirements: 1.5, 1.2, 1.3_
+  - _Depends: 1.5, 2.3, 3.4_
+
+- [ ] 4.6 建立根 `packages/index.ts` re-export 与 AeroUI 全局注册
+  - 在 `packages/index.ts` 中 `export * from './components'`、`export * from './locale'`，并提供默认导出 `AeroUI`（含 `install(app)`，内部 `app.use(AeroButton)` / `app.use(AeroInput)` / `app.use(AeroIcon)` 全局注册三组件）
+  - theme 样式不由根 barrel re-export（消费者单独 `import 'aero-ui/theme/index.scss'`）；resolver 不纳入根 barrel
+  - 完成后 `import AeroUI from 'aero-ui'` 可解析，`app.use(AeroUI)` 后三个组件全局可用
+  - _Requirements: 1.6, 1.3_
+  - _Depends: 4.5_
+
+- [ ] 5. 验证与门禁
+- [ ] 5.1 全量质量门禁通过
+  - 执行 `pnpm typecheck`、`pnpm lint`、`pnpm format`、`pnpm test`、`pnpm build`，全部以退出码 0 通过
+  - 完成后构建产出含 `button` / `input` / `icon` 子路径产物与类型声明
+  - _Requirements: 7.3_
+- [ ] 5.2 契约与边界校验
+  - 校验工作树仅含三组件、组件样式只含 `--aero-*`、无 Options API、类型无 `any`，并冒烟验证明暗主题与 locale 切换生效
+  - 完成后边界扫描无违规项，`.aero-theme-dark` 与语言切换均产生预期视觉 / 文案变化
+  - _Requirements: 1.4, 5.4, 6.2, 7.1, 7.3_
+- [ ] 5.3 验证根 barrel 与全局注册
+  - 断言 `import { AeroButton } from 'aero-ui'` 与 `import AeroUI from 'aero-ui'; app.use(AeroUI)` 均可解析，注册后模板可直接使用 `<AeroButton />` / `<AeroInput />` / `<AeroIcon />`
+  - 完成后 `aero-ui` 根入口解析成功，三组件全局注册生效（`app.use(AeroUI)` 后无需逐组件注册）
+  - _Requirements: 1.5, 1.6_
+  - _Depends: 4.6_
