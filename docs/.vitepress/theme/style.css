@@ -1,0 +1,27 @@
+/*
+ * 站点级自定义样式。
+ * TODO(theme): 待 packages/theme 落地 --aero-* 语义变量后，将 fallback 值替换为语义变量，
+ *   移除硬编码视觉值（tech.md：站点表面应只消费 --aero-*）。
+ */
+.aero-theme-switch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--aero-border, #e2e2e3);
+  border-radius: 6px;
+  background: var(--aero-bg-container, transparent);
+  color: var(--aero-text-main, inherit);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+}
+
+.aero-theme-switch:hover {
+  border-color: var(--aero-primary-6, #3b82f6);
+}

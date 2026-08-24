@@ -3,7 +3,7 @@ node_modules
 dist
 *.local
 .DS_Store
-.vitepress/cache
-.vitepress/dist
+**/.vitepress/cache
+**/.vitepress/dist
 coverage
 *.log
