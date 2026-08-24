@@ -1,0 +1,90 @@
+.aero-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--aero-space-4);
+  height: 32px;
+  padding: 0 var(--aero-space-12);
+  border: 1px solid var(--aero-border-main);
+  border-radius: var(--aero-radius-main);
+  background: var(--aero-bg-main);
+  color: var(--aero-text-main);
+  font-size: var(--aero-typography-size-02);
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+
+  &--large {
+    height: 40px;
+    padding: 0 var(--aero-space-16);
+    font-size: var(--aero-typography-size-03);
+  }
+
+  &--small {
+    height: 24px;
+    padding: 0 var(--aero-space-8);
+    font-size: var(--aero-typography-size-01);
+  }
+
+  &--primary {
+    border-color: var(--aero-primary-6);
+    background: var(--aero-primary-6);
+    color: var(--aero-text-inverse);
+
+    &:hover {
+      border-color: var(--aero-primary-5);
+      background: var(--aero-primary-5);
+    }
+  }
+
+  &--danger {
+    border-color: var(--aero-danger-6);
+    background: var(--aero-danger-6);
+    color: var(--aero-text-inverse);
+
+    &:hover {
+      border-color: var(--aero-danger-5);
+      background: var(--aero-danger-5);
+    }
+  }
+
+  &--link {
+    border-color: transparent;
+    background: transparent;
+    color: var(--aero-primary-6);
+
+    &:hover {
+      color: var(--aero-primary-5);
+    }
+  }
+
+  &--default:hover {
+    border-color: var(--aero-primary-6);
+    color: var(--aero-primary-6);
+  }
+
+  &__icon {
+    font-size: inherit;
+  }
+
+  &.is-icon-only {
+    padding: 0;
+    width: 32px;
+
+    &.aero-button--large {
+      width: 40px;
+    }
+
+    &.aero-button--small {
+      width: 24px;
+    }
+  }
+
+  &.is-disabled {
+    opacity: var(--aero-opacity-disabled);
+    cursor: not-allowed;
+  }
+}

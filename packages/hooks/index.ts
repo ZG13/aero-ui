@@ -1,2 +1,2 @@
-export { useLocale } from './useLocale'
-export type { UseLocaleReturn } from './useLocale'
+export { useLocale } from './useLocale';
+export type { UseLocaleReturn } from './useLocale';

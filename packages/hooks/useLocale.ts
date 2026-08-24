@@ -1,14 +1,14 @@
-import type { WritableComputedRef } from 'vue'
-import { i18n } from '../locale'
-import type { Locale } from '../locale'
+import type { WritableComputedRef } from 'vue';
+import { i18n } from '../locale';
+import type { Locale } from '../locale';
 
 export interface UseLocaleReturn {
   /** 翻译函数：按当前语言返回文案，缺失 key 回退默认语言或返回 key 本身 */
-  t: (key: string) => string
+  t: (key: string) => string;
   /** 当前语言（响应式） */
-  locale: WritableComputedRef<Locale>
+  locale: WritableComputedRef<Locale>;
   /** 切换语言 */
-  setLocale: (lang: Locale) => void
+  setLocale: (lang: Locale) => void;
 }
 
 /**
@@ -17,13 +17,13 @@ export interface UseLocaleReturn {
  * 且无需 app.use(i18n) 即可在测试与独立环境工作。
  */
 export function useLocale(): UseLocaleReturn {
-  const locale = i18n.global.locale as WritableComputedRef<Locale>
+  const locale = i18n.global.locale as WritableComputedRef<Locale>;
 
-  const t = (key: string): string => i18n.global.t(key) as string
+  const t = (key: string): string => i18n.global.t(key) as string;
 
   const setLocale = (lang: Locale): void => {
-    locale.value = lang
-  }
+    locale.value = lang;
+  };
 
-  return { t, locale, setLocale }
+  return { t, locale, setLocale };
 }

@@ -1,0 +1,47 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+import AeroIcon from '../../icon';
+import { useLocale } from '../../../hooks';
+import type { ButtonProps, ButtonEmits } from '../types';
+
+defineOptions({ name: 'AeroButton' });
+
+const props = withDefaults(defineProps<ButtonProps>(), {
+  type: 'default',
+  size: 'main',
+  disabled: false,
+  loading: false,
+  nativeType: 'button',
+});
+
+const emit = defineEmits<ButtonEmits>();
+
+const { t } = useLocale();
+
+const disabled = computed(() => props.disabled || props.loading);
+
+const iconName = computed(() => (props.loading ? 'loading' : props.icon));
+
+function handleClick(event: MouseEvent) {
+  if (disabled.value) return;
+  emit('click', event);
+}
+</script>
+
+<template>
+  <button
+    class="aero-button"
+    :class="[
+      `aero-button--${type}`,
+      `aero-button--${size}`,
+      { 'is-disabled': disabled, 'is-loading': loading, 'is-icon-only': !$slots.default },
+    ]"
+    :type="nativeType"
+    :disabled="disabled"
+    @click="handleClick"
+  >
+    <AeroIcon v-if="iconName" class="aero-button__icon" :name="iconName" />
+    <span v-if="loading" class="aero-button__loading">{{ t('components.button.loading') }}</span>
+    <span v-else class="aero-button__content"><slot /></span>
+  </button>
+</template>

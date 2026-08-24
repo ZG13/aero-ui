@@ -1,7 +1,15 @@
-import type { LanguagePack } from '../types'
+import type { LanguagePack } from '../types';
 
 const en = {
   name: 'English',
-} satisfies LanguagePack
+  components: {
+    button: {
+      loading: 'Loading',
+    },
+    input: {
+      placeholder: 'Please enter',
+    },
+  },
+} satisfies LanguagePack;
 
-export default en
+export default en;
