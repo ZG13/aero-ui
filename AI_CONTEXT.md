@@ -86,9 +86,9 @@ import 'aero-ui/components/button/style/index.css';
 
 | prop | 类型 | 默认值 |
 |------|------|--------|
-| name | `string`（内置 `loading` / `close` / `search`） | — |
+| name | `string`（内置 `search` / `close` / `loading` / `settings` / `link`） | — |
 | size | `number \| string` | `'1em'` |
-| color | `string` | `'currentColor'` |
+| color | `string` | `'var(--aero-neutral-10)'` |
 
 未知 `name` 渲染为空内容，不抛错。
 

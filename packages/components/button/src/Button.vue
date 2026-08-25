@@ -46,12 +46,14 @@ function handleClick(event: MouseEvent) {
       v-if="!loading && icon && iconPosition === 'left'"
       class="aero-button__icon"
       :name="icon"
+      color="currentColor"
     />
     <span v-if="$slots.default" class="aero-button__content"><slot /></span>
     <AeroIcon
       v-if="!loading && icon && iconPosition === 'right'"
       class="aero-button__icon"
       :name="icon"
+      color="currentColor"
     />
   </button>
 </template>

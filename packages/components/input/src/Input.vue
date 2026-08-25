@@ -53,6 +53,12 @@ function handleClear() {
       @focus="handleFocus"
       @blur="handleBlur"
     />
-    <AeroIcon v-if="showClear" class="aero-input__clear" name="close" @click="handleClear" />
+    <AeroIcon
+      v-if="showClear"
+      class="aero-input__clear"
+      name="close"
+      color="currentColor"
+      @click="handleClear"
+    />
   </div>
 </template>

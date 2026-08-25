@@ -9,6 +9,7 @@ import 'aero-ui/components/input/style/index.scss'
 import 'aero-ui/components/icon/style/index.scss'
 import ThemeSwitch from './ThemeSwitch.vue'
 import DemoBlock from './DemoBlock.vue'
+import IconGrid from './IconGrid.vue'
 import './style.css'
 
 export default {
@@ -18,6 +19,7 @@ export default {
     app.use(AeroInput)
     app.use(AeroIcon)
     app.component('DemoBlock', DemoBlock)
+    app.component('IconGrid', IconGrid)
   },
   Layout: () =>
     h(DefaultTheme.Layout, null, {
