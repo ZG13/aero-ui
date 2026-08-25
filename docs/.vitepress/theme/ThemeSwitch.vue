@@ -8,6 +8,7 @@ import { onMounted, ref } from 'vue'
 //    仅切 .aero-theme-* 时 --vp-* 保持亮色，整页看起来"没切换"，故需同步切换 .dark。
 const THEME_LIGHT = 'aero-theme-light'
 const THEME_DARK = 'aero-theme-dark'
+const STORAGE_KEY = 'aero-ui-theme'
 
 const isDark = ref(false)
 
@@ -22,11 +23,25 @@ function applyTheme(dark: boolean) {
 function toggle() {
   isDark.value = !isDark.value
   applyTheme(isDark.value)
+  try {
+    localStorage.setItem(STORAGE_KEY, isDark.value ? 'dark' : 'light')
+  } catch {
+    // localStorage 不可用（隐私模式等）时静默忽略，主题仍随本次会话生效
+  }
 }
 
 onMounted(() => {
-  // 默认 light，与 :root 默认一致
-  applyTheme(false)
+  // 从持久化偏好「恢复」主题，而非强制 light：组件挂在 nav-bar-title-after 槽位，
+  // 切换 .dark 会触发 VitePress 外壳重渲染并使本组件重新挂载，若在此 reset 为 light，
+  // 暗色会被立刻打回亮色。默认 light，与 :root 默认一致。
+  let dark = false
+  try {
+    dark = localStorage.getItem(STORAGE_KEY) === 'dark'
+  } catch {
+    dark = false
+  }
+  isDark.value = dark
+  applyTheme(dark)
 })
 </script>
 
