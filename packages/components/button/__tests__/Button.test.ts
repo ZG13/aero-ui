@@ -45,10 +45,14 @@ describe('AeroButton', () => {
     expect(wrapper.emitted('click')).toBeUndefined();
   });
 
-  it('loading 时不触发 click 且展示加载文案', () => {
-    const wrapper = mount(AeroButton, { props: { loading: true } });
+  it('loading 时不触发 click 且展示 loading 图标', () => {
+    const wrapper = mount(AeroButton, {
+      props: { loading: true },
+      slots: { default: '确定' },
+    });
     expect(wrapper.find('button').attributes('disabled')).toBeDefined();
-    expect(wrapper.text()).toContain('加载中');
+    expect(wrapper.find('.aero-button__loading-icon').exists()).toBe(true);
+    expect(wrapper.text()).toContain('确定');
   });
 
   it('正常点击派发 click 事件', async () => {

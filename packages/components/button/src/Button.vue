@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import AeroIcon from '../../icon';
-import { useLocale } from '../../../hooks';
 import type { ButtonProps, ButtonEmits } from '../types';
 
 defineOptions({ name: 'AeroButton' });
@@ -19,11 +18,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 
 const emit = defineEmits<ButtonEmits>();
 
-const { t } = useLocale();
-
 const disabled = computed(() => props.disabled || props.loading);
-
-const iconName = computed(() => (props.loading ? 'loading' : props.icon));
 
 function handleClick(event: MouseEvent) {
   if (disabled.value) return;
@@ -39,23 +34,24 @@ function handleClick(event: MouseEvent) {
       `aero-button--${variant}`,
       `aero-button--size-${size}`,
       `aero-button--${shape}`,
-      { 'is-disabled': disabled, 'is-loading': loading, 'is-icon-only': !loading && !$slots.default && iconName },
+      { 'is-disabled': disabled, 'is-loading': loading, 'is-icon-only': !loading && !$slots.default && icon },
     ]"
     :type="nativeType"
     :disabled="disabled"
     @click="handleClick"
   >
+    <!-- loading 态：文字保留，仅在文字左侧插入旋转 spinner（element-plus 风格） -->
+    <span v-if="loading" class="aero-button__loading-icon" aria-hidden="true" />
     <AeroIcon
-      v-if="iconName && iconPosition === 'left'"
+      v-if="!loading && icon && iconPosition === 'left'"
       class="aero-button__icon"
-      :name="iconName"
+      :name="icon"
     />
-    <span v-if="loading" class="aero-button__loading">{{ t('components.button.loading') }}</span>
-    <span v-else class="aero-button__content"><slot /></span>
+    <span class="aero-button__content"><slot /></span>
     <AeroIcon
-      v-if="iconName && iconPosition === 'right'"
+      v-if="!loading && icon && iconPosition === 'right'"
       class="aero-button__icon"
-      :name="iconName"
+      :name="icon"
     />
   </button>
 </template>

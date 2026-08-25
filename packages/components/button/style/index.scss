@@ -188,6 +188,16 @@
     font-size: inherit;
   }
 
+  &__loading-icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 0.125em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: aero-button-rotating 0.8s linear infinite;
+  }
+
   &.is-icon-only {
     padding: 0;
     width: 32px;
@@ -208,5 +218,11 @@
   &.is-disabled {
     opacity: var(--aero-opacity-disabled);
     cursor: not-allowed;
+  }
+}
+
+@keyframes aero-button-rotating {
+  to {
+    transform: rotate(360deg);
   }
 }
