@@ -62,6 +62,7 @@ async function copy(name: string) {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 8px;
   gap: var(--aero-space-3, 8px);
   padding: var(--aero-space-6, 16px) var(--aero-space-3, 8px);
   border: 1px solid var(--aero-border-main, #ebebeb);
