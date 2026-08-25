@@ -55,7 +55,7 @@ Control the size via `size`: `large` (36px), `default` (32px), `small` (28px), o
 
 ## Disabled
 
-`disabled` disables the button; both `disabled` and `loading` suppress `click`.
+`disabled` disables the button and suppresses `click`.
 
 ```vue
 <template>
@@ -79,11 +79,22 @@ Control the size via `size`: `large` (36px), `default` (32px), `small` (28px), o
 
 ## Loading
 
-`loading` shows a loading state; both `disabled` and `loading` suppress `click`.
+`loading` shows a loading state and suppresses `click`.
 
 ```vue
 <template>
   <AeroButton loading>Loading</AeroButton>
+</template>
+```
+
+## Shape
+
+Control the shape via `shape`: `default` (rounded rect) or `round` (pill).
+
+```vue
+<template>
+  <AeroButton>Default</AeroButton>
+  <AeroButton shape="round">Round</AeroButton>
 </template>
 ```
 

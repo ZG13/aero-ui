@@ -55,7 +55,31 @@
 
 ## 禁用
 
-`disabled` 禁用按钮，`loading` 展示加载态；两者均不触发 `click`。
+`disabled` 禁用按钮，不触发 `click`。
+
+```vue
+<template>
+  <AeroButton type="primary" disabled>禁用按钮</AeroButton>
+  <AeroButton type="success" disabled>禁用按钮</AeroButton>
+  <AeroButton type="warning" disabled>禁用按钮</AeroButton>
+  <AeroButton type="danger" disabled>禁用按钮</AeroButton>
+  <AeroButton type="info" disabled>禁用按钮</AeroButton>
+  <AeroButton type="primary" variant="plain" disabled>禁用按钮</AeroButton>
+  <AeroButton type="success" variant="plain" disabled>禁用按钮</AeroButton>
+  <AeroButton type="warning" variant="plain" disabled>禁用按钮</AeroButton>
+  <AeroButton type="danger" variant="plain" disabled>禁用按钮</AeroButton>
+  <AeroButton type="info" variant="plain" disabled>禁用按钮</AeroButton>
+  <AeroButton type="primary" variant="none" disabled>禁用按钮</AeroButton>
+  <AeroButton type="success" variant="none" disabled>禁用按钮</AeroButton>
+  <AeroButton type="warning" variant="none" disabled>禁用按钮</AeroButton>
+  <AeroButton type="danger" variant="none" disabled>禁用按钮</AeroButton>
+  <AeroButton type="info" variant="none" disabled>禁用按钮</AeroButton>
+</template>
+```
+
+## 型状
+
+`loading` 展示加载态，不触发 `click`。
 
 ```vue
 <template>
@@ -78,13 +102,15 @@
 ```
 
 
-## 加载
 
-`disabled` 禁用按钮，`loading` 展示加载态；两者均不触发 `click`。
+## 型状
+
+通过 `shape` 控制按钮形状，支持 `default`（矩形）、`round`（圆角）。
 
 ```vue
 <template>
-  <AeroButton loading>加载中</AeroButton>
+  <AeroButton>矩形</AeroButton>
+  <AeroButton shape="round">圆角</AeroButton>
 </template>
 ```
 

@@ -47,7 +47,7 @@ function handleClick(event: MouseEvent) {
       class="aero-button__icon"
       :name="icon"
     />
-    <span class="aero-button__content"><slot /></span>
+    <span v-if="$slots.default" class="aero-button__content"><slot /></span>
     <AeroIcon
       v-if="!loading && icon && iconPosition === 'right'"
       class="aero-button__icon"
