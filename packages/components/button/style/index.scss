@@ -4,11 +4,10 @@
   justify-content: center;
   gap: var(--aero-space-4);
   height: 32px;
-  padding: 0 var(--aero-space-12);
-  border: 1px solid var(--aero-border-main);
+  padding: 0 var(--aero-space-16);
+  border: 1px solid transparent;
   border-radius: var(--aero-radius-main);
-  background: var(--aero-bg-main);
-  color: var(--aero-text-main);
+  background: transparent;
   font-size: var(--aero-typography-size-02);
   line-height: 1;
   cursor: pointer;
@@ -17,59 +16,172 @@
     border-color 0.2s,
     color 0.2s;
 
+  /* 尺寸：large=36 / default=32 / small=28 / mini=24，padding 与字号对齐 Figma */
   &--size-large {
     height: 36px;
-    padding: 0 var(--aero-space-16);
-    font-size: var(--aero-typography-size-03);
+    padding: 0 var(--aero-space-20);
   }
 
   &--size-small {
     height: 28px;
-    padding: 0 var(--aero-space-8);
-    font-size: var(--aero-typography-size-01);
+    padding: 0 var(--aero-space-12);
   }
 
   &--size-mini {
     height: 24px;
-    padding: 0 var(--aero-space-6);
-    font-size: var(--aero-typography-size-00);
+    padding: 0 var(--aero-space-12);
+    font-size: var(--aero-typography-size-01);
   }
 
-  &--primary {
-    border-color: var(--aero-primary-6);
-    background: var(--aero-primary-6);
+  /* 形状 */
+  &--round {
+    border-radius: var(--aero-radius-full);
+  }
+
+  /* ===== solid 实底 ===== */
+  &--solid {
     color: var(--aero-text-inverse);
 
-    &:hover {
-      border-color: var(--aero-primary-5);
-      background: var(--aero-primary-5);
+    &.aero-button--primary {
+      background: var(--aero-primary-6);
+      &:hover {
+        background: var(--aero-primary-5);
+      }
+      &:active {
+        background: var(--aero-primary-7);
+      }
+    }
+
+    &.aero-button--success {
+      background: var(--aero-success-6);
+      &:hover {
+        background: var(--aero-success-5);
+      }
+      &:active {
+        background: var(--aero-success-7);
+      }
+    }
+
+    &.aero-button--warning {
+      background: var(--aero-warning-6);
+      &:hover {
+        background: var(--aero-warning-5);
+      }
+      &:active {
+        background: var(--aero-warning-7);
+      }
+    }
+
+    &.aero-button--danger {
+      background: var(--aero-danger-6);
+      &:hover {
+        background: var(--aero-danger-5);
+      }
+      &:active {
+        background: var(--aero-danger-7);
+      }
+    }
+
+    &.aero-button--info {
+      background: var(--aero-neutral-2);
+      color: var(--aero-neutral-10);
+      &:hover {
+        background: var(--aero-neutral-3);
+      }
+      &:active {
+        background: var(--aero-neutral-4);
+      }
     }
   }
 
-  &--danger {
-    border-color: var(--aero-danger-6);
-    background: var(--aero-danger-6);
-    color: var(--aero-text-inverse);
+  /* ===== plain 描边 ===== */
+  &--plain {
+    background: transparent;
 
-    &:hover {
-      border-color: var(--aero-danger-5);
-      background: var(--aero-danger-5);
+    &.aero-button--primary {
+      border-color: var(--aero-primary-6);
+      color: var(--aero-primary-6);
+      &:hover {
+        background: var(--aero-primary-1);
+      }
+      &:active {
+        background: var(--aero-primary-2);
+      }
+    }
+
+    &.aero-button--success {
+      border-color: var(--aero-success-6);
+      color: var(--aero-success-6);
+      &:hover {
+        background: var(--aero-success-1);
+      }
+      &:active {
+        background: var(--aero-success-2);
+      }
+    }
+
+    &.aero-button--warning {
+      border-color: var(--aero-warning-6);
+      color: var(--aero-warning-6);
+      &:hover {
+        background: var(--aero-warning-1);
+      }
+      &:active {
+        background: var(--aero-warning-2);
+      }
+    }
+
+    &.aero-button--danger {
+      border-color: var(--aero-danger-6);
+      color: var(--aero-danger-6);
+      &:hover {
+        background: var(--aero-danger-1);
+      }
+      &:active {
+        background: var(--aero-danger-3);
+      }
+    }
+
+    &.aero-button--info {
+      border-color: var(--aero-neutral-3);
+      color: var(--aero-neutral-10);
+      background: var(--aero-bg-main);
+      &:hover {
+        background: var(--aero-neutral-1);
+      }
+      &:active {
+        background: var(--aero-neutral-2);
+      }
     }
   }
 
-  &--link {
+  /* ===== none 纯文本 ===== */
+  &--none {
     border-color: transparent;
     background: transparent;
-    color: var(--aero-primary-6);
+
+    &.aero-button--primary {
+      color: var(--aero-primary-6);
+    }
+    &.aero-button--success {
+      color: var(--aero-success-6);
+    }
+    &.aero-button--warning {
+      color: var(--aero-warning-6);
+    }
+    &.aero-button--danger {
+      color: var(--aero-danger-6);
+    }
+    &.aero-button--info {
+      color: var(--aero-neutral-10);
+    }
 
     &:hover {
-      color: var(--aero-primary-5);
+      background: var(--aero-fill-hover);
     }
-  }
-
-  &--default:hover {
-    border-color: var(--aero-primary-6);
-    color: var(--aero-primary-6);
+    &:active {
+      background: var(--aero-fill-active);
+    }
   }
 
   &__icon {

@@ -7,10 +7,13 @@ import type { ButtonProps, ButtonEmits } from '../types';
 defineOptions({ name: 'AeroButton' });
 
 const props = withDefaults(defineProps<ButtonProps>(), {
-  type: 'default',
+  type: 'info',
+  variant: 'solid',
   size: 'default',
+  shape: 'default',
   disabled: false,
   loading: false,
+  iconPosition: 'left',
   nativeType: 'button',
 });
 
@@ -33,15 +36,26 @@ function handleClick(event: MouseEvent) {
     class="aero-button"
     :class="[
       `aero-button--${type}`,
+      `aero-button--${variant}`,
       `aero-button--size-${size}`,
-      { 'is-disabled': disabled, 'is-loading': loading, 'is-icon-only': !$slots.default },
+      `aero-button--${shape}`,
+      { 'is-disabled': disabled, 'is-loading': loading, 'is-icon-only': !loading && !$slots.default && iconName },
     ]"
     :type="nativeType"
     :disabled="disabled"
     @click="handleClick"
   >
-    <AeroIcon v-if="iconName" class="aero-button__icon" :name="iconName" />
+    <AeroIcon
+      v-if="iconName && iconPosition === 'left'"
+      class="aero-button__icon"
+      :name="iconName"
+    />
     <span v-if="loading" class="aero-button__loading">{{ t('components.button.loading') }}</span>
     <span v-else class="aero-button__content"><slot /></span>
+    <AeroIcon
+      v-if="iconName && iconPosition === 'right'"
+      class="aero-button__icon"
+      :name="iconName"
+    />
   </button>
 </template>

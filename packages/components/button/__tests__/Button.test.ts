@@ -10,6 +10,12 @@ describe('AeroButton', () => {
     expect(wrapper.text()).toContain('确定');
   });
 
+  it('默认 type=info、variant=solid 产生对应类名', () => {
+    const wrapper = mount(AeroButton, { slots: { default: 'x' } });
+    expect(wrapper.classes()).toContain('aero-button--info');
+    expect(wrapper.classes()).toContain('aero-button--solid');
+  });
+
   it('type / size 产生对应类名', () => {
     const wrapper = mount(AeroButton, {
       props: { type: 'danger', size: 'small' },
@@ -17,6 +23,15 @@ describe('AeroButton', () => {
     });
     expect(wrapper.classes()).toContain('aero-button--danger');
     expect(wrapper.classes()).toContain('aero-button--size-small');
+  });
+
+  it('variant / shape 产生对应类名', () => {
+    const wrapper = mount(AeroButton, {
+      props: { variant: 'plain', shape: 'round' },
+      slots: { default: 'x' },
+    });
+    expect(wrapper.classes()).toContain('aero-button--plain');
+    expect(wrapper.classes()).toContain('aero-button--round');
   });
 
   it('nativeType 映射到原生按钮类型', () => {
@@ -45,6 +60,15 @@ describe('AeroButton', () => {
   it('icon 渲染 AeroIcon', () => {
     const wrapper = mount(AeroButton, { props: { icon: 'search' } });
     expect(wrapper.find('svg').exists()).toBe(true);
+  });
+
+  it('iconPosition=right 时图标位于文字之后', () => {
+    const wrapper = mount(AeroButton, {
+      props: { icon: 'search', iconPosition: 'right' },
+      slots: { default: '搜索' },
+    });
+    const children = wrapper.find('button').element.children;
+    expect(children[children.length - 1].tagName.toLowerCase()).toBe('svg');
   });
 
   it('导出对象带 install 方法', () => {

@@ -9,21 +9,30 @@
 ## Props / Emits 契约
 
 ```ts
-export type ButtonType = 'primary' | 'default' | 'danger' | 'link';
+export type ButtonType = 'primary' | 'info' | 'success' | 'warning' | 'danger';
+export type ButtonVariant = 'solid' | 'plain' | 'none';
 export type ButtonSize = 'large' | 'default' | 'small' | 'mini';
+export type ButtonShape = 'default' | 'round';
+export type ButtonIconPosition = 'left' | 'right';
 export type ButtonNativeType = 'button' | 'submit' | 'reset';
 
 export interface ButtonProps {
-  /** @default 'default' */
+  /** @default 'info' */
   type?: ButtonType;
+  /** @default 'solid' */
+  variant?: ButtonVariant;
   /** @default 'default' */
   size?: ButtonSize;
+  /** @default 'default' */
+  shape?: ButtonShape;
   /** @default false */
   disabled?: boolean;
   /** @default false */
   loading?: boolean;
   /** 图标名，经 AeroIcon 渲染 */
   icon?: string;
+  /** @default 'left' */
+  iconPosition?: ButtonIconPosition;
   /** @default 'button' */
   nativeType?: ButtonNativeType;
 }
@@ -33,19 +42,46 @@ export interface ButtonEmits {
 }
 ```
 
-约束：`disabled` 与 `loading` 均阻止 `click`；`loading` 时展示加载态并经 `AeroIcon` 渲染 `loading` 图标；`icon` 经 `AeroIcon` 渲染。
+约束：`disabled` 与 `loading` 均阻止 `click`；`loading` 时展示加载态并经 `AeroIcon` 渲染 `loading` 图标；`icon` 经 `AeroIcon` 渲染，`iconPosition` 决定图标位于文字左侧或右侧。
 
-## --aero-* token 用法
+## 视觉矩阵（类型 × 样式 × 状态）
 
-- 主色按钮：`background: var(--aero-primary-6)`、`color: var(--aero-text-inverse)`。
-- 危险按钮：`background: var(--aero-danger-6)`、`color: var(--aero-text-inverse)`。
-- 链接按钮：透明底 + `color: var(--aero-primary-6)`。
-- 默认按钮：`background: var(--aero-bg-main)`、`border: 1px solid var(--aero-border-main)`、`color: var(--aero-text-main)`。
-- 尺寸/圆角/间距：`--aero-typography-size-*`、`--aero-radius-main`、`--aero-space-*`、`--aero-opacity-disabled`。
+### solid（实底，文字 `--aero-text-inverse`，info 例外用 `--aero-neutral-10`）
 
-DOM 类名（BEM）：`aero-button`、`aero-button--{type}`、`aero-button--size-{size}`、`aero-button__loading`、`aero-button__icon`、状态修饰 `is-disabled` / `is-loading` / `is-icon-only`。
+| type | normal | hover | active |
+|------|--------|-------|--------|
+| primary | `--aero-primary-6` | `--aero-primary-5` | `--aero-primary-7` |
+| success | `--aero-success-6` | `--aero-success-5` | `--aero-success-7` |
+| warning | `--aero-warning-6` | `--aero-warning-5` | `--aero-warning-7` |
+| danger | `--aero-danger-6` | `--aero-danger-5` | `--aero-danger-7` |
+| info | `--aero-neutral-2` | `--aero-neutral-3` | `--aero-neutral-4` |
 
-尺寸对应：`large`=36px、`default`=32px、`small`=28px、`mini`=24px。
+### plain（描边，1px 主色描边，透明底）
+
+| type | normal 文字/描边 | hover 背景 | active 背景 |
+|------|-----------------|-----------|------------|
+| primary | `--aero-primary-6` | `--aero-primary-1` | `--aero-primary-2` |
+| success | `--aero-success-6` | `--aero-success-1` | `--aero-success-2` |
+| warning | `--aero-warning-6` | `--aero-warning-1` | `--aero-warning-2` |
+| danger | `--aero-danger-6` | `--aero-danger-1` | `--aero-danger-3` |
+| info | 文字 `--aero-neutral-10` / 描边 `--aero-neutral-3` | `--aero-neutral-1` | `--aero-neutral-2` |
+
+### none（纯文本，无边框无背景）
+
+文字色同 plain（`--aero-{type}-6`，info 用 `--aero-neutral-10`）；`hover` 背景 `--aero-fill-hover`、`active` 背景 `--aero-fill-active`。
+
+## 尺寸
+
+| size | 高度 | 水平 padding | 字号 |
+|------|------|-------------|------|
+| large | 36px | `--aero-space-20` | `--aero-typography-size-02` |
+| default | 32px | `--aero-space-16` | `--aero-typography-size-02` |
+| small | 28px | `--aero-space-12` | `--aero-typography-size-02` |
+| mini | 24px | `--aero-space-12` | `--aero-typography-size-01` |
+
+圆角 `--aero-radius-main`（`round` 形状用 `--aero-radius-full`）；图标与文字 gap `--aero-space-4`；禁用 `--aero-opacity-disabled`。
+
+DOM 类名（BEM）：`aero-button`、`aero-button--{type}`、`aero-button--{variant}`、`aero-button--size-{size}`、`aero-button--{shape}`、`aero-button__loading`、`aero-button__icon`、状态修饰 `is-disabled` / `is-loading` / `is-icon-only`。
 
 ## 代码生成规则指引
 

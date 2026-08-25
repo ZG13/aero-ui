@@ -72,6 +72,22 @@
   --aero-fill-main: #{$neutralgrey-2};
   --aero-fill-light: #{$neutralgrey-1};
 
+  // 中性色阶（coolgrey，供 info 中性按钮等场景使用）
+  --aero-neutral-1: #{$coolgrey-1};
+  --aero-neutral-2: #{$coolgrey-2};
+  --aero-neutral-3: #{$coolgrey-3};
+  --aero-neutral-4: #{$coolgrey-4};
+  --aero-neutral-5: #{$coolgrey-5};
+  --aero-neutral-6: #{$coolgrey-6};
+  --aero-neutral-7: #{$coolgrey-7};
+  --aero-neutral-8: #{$coolgrey-8};
+  --aero-neutral-9: #{$coolgrey-9};
+  --aero-neutral-10: #{$coolgrey-10};
+
+  // 叠加填充（纯文本按钮悬停 / 按下背景）
+  --aero-fill-hover: #{$opacblack-2_04};
+  --aero-fill-active: #{$opacblack-3_08};
+
   // 非颜色语义（跨模式一致）
   --aero-radius-small: #{$radius-2};
   --aero-radius-main: #{$radius-4};

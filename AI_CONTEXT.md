@@ -58,11 +58,14 @@ import 'aero-ui/components/button/style/index.css';
 
 | prop | 类型 | 默认值 |
 |------|------|--------|
-| type | `'primary' \| 'default' \| 'danger' \| 'link'` | `'default'` |
+| type | `'primary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` |
+| variant | `'solid' \| 'plain' \| 'none'` | `'solid'` |
 | size | `'large' \| 'default' \| 'small' \| 'mini'`（36px / 32px / 28px / 24px） | `'default'` |
+| shape | `'default' \| 'round'` | `'default'` |
 | disabled | `boolean` | `false` |
 | loading | `boolean` | `false` |
 | icon | `string` | — |
+| iconPosition | `'left' \| 'right'` | `'left'` |
 | nativeType | `'button' \| 'submit' \| 'reset'` | `'button'` |
 
 事件：`click`（禁用/加载中不触发）。
