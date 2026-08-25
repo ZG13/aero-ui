@@ -22,9 +22,21 @@
 
 ```vue
 <template>
-  <AeroButton type="primary" variant="solid">实底按钮</AeroButton>
-  <AeroButton type="primary" variant="plain">描边按钮</AeroButton>
-  <AeroButton type="primary" variant="none">文字按钮</AeroButton>
+    <AeroButton type="primary" variant="solid">实底按钮</AeroButton>
+    <AeroButton type="success" variant="solid">实底按钮</AeroButton>
+    <AeroButton type="warning" variant="solid">实底按钮</AeroButton>
+    <AeroButton type="danger" variant="solid">实底按钮</AeroButton>
+    <AeroButton type="info" variant="solid">实底按钮</AeroButton>
+    <AeroButton type="primary" variant="plain">描边按钮</AeroButton>
+    <AeroButton type="success" variant="plain">描边按钮</AeroButton>
+    <AeroButton type="warning" variant="plain">描边按钮</AeroButton>
+    <AeroButton type="danger" variant="plain">描边按钮</AeroButton>
+    <AeroButton type="info" variant="plain">描边按钮</AeroButton>
+    <AeroButton type="primary" variant="none">文字按钮</AeroButton>
+    <AeroButton type="success" variant="none">文字按钮</AeroButton>
+    <AeroButton type="warning" variant="none">文字按钮</AeroButton>
+    <AeroButton type="danger" variant="none">文字按钮</AeroButton>
+    <AeroButton type="info" variant="none">文字按钮</AeroButton>
 </template>
 ```
 
@@ -41,13 +53,37 @@
 </template>
 ```
 
-## 禁用与加载
+## 禁用
 
 `disabled` 禁用按钮，`loading` 展示加载态；两者均不触发 `click`。
 
 ```vue
 <template>
-  <AeroButton disabled>禁用按钮</AeroButton>
+  <AeroButton type="primary" disabled>禁用按钮</AeroButton>
+  <AeroButton type="success" disabled>禁用按钮</AeroButton>
+  <AeroButton type="warning" disabled>禁用按钮</AeroButton>
+  <AeroButton type="danger" disabled>禁用按钮</AeroButton>
+  <AeroButton type="info" disabled>禁用按钮</AeroButton>
+  <AeroButton type="primary" variant="plain" disabled>禁用按钮</AeroButton>
+  <AeroButton type="success" variant="plain" disabled>禁用按钮</AeroButton>
+  <AeroButton type="warning" variant="plain" disabled>禁用按钮</AeroButton>
+  <AeroButton type="danger" variant="plain" disabled>禁用按钮</AeroButton>
+  <AeroButton type="info" variant="plain" disabled>禁用按钮</AeroButton>
+  <AeroButton type="primary" variant="none" disabled>禁用按钮</AeroButton>
+  <AeroButton type="success" variant="none" disabled>禁用按钮</AeroButton>
+  <AeroButton type="warning" variant="none" disabled>禁用按钮</AeroButton>
+  <AeroButton type="danger" variant="none" disabled>禁用按钮</AeroButton>
+  <AeroButton type="info" variant="none" disabled>禁用按钮</AeroButton>
+</template>
+```
+
+
+## 加载
+
+`disabled` 禁用按钮，`loading` 展示加载态；两者均不触发 `click`。
+
+```vue
+<template>
   <AeroButton loading>加载中</AeroButton>
 </template>
 ```

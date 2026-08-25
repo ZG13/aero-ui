@@ -23,8 +23,20 @@ Use `type` to set the semantic variant.
 ```vue
 <template>
   <AeroButton type="primary" variant="solid">Solid</AeroButton>
+  <AeroButton type="success" variant="solid">Solid</AeroButton>
+  <AeroButton type="warning" variant="solid">Solid</AeroButton>
+  <AeroButton type="danger" variant="solid">Solid</AeroButton>
+  <AeroButton type="info" variant="solid">Solid</AeroButton>
   <AeroButton type="primary" variant="plain">Plain</AeroButton>
+  <AeroButton type="success" variant="plain">Plain</AeroButton>
+  <AeroButton type="warning" variant="plain">Plain</AeroButton>
+  <AeroButton type="danger" variant="plain">Plain</AeroButton>
+  <AeroButton type="info" variant="plain">Plain</AeroButton>
   <AeroButton type="primary" variant="none">Text</AeroButton>
+  <AeroButton type="success" variant="none">Text</AeroButton>
+  <AeroButton type="warning" variant="none">Text</AeroButton>
+  <AeroButton type="danger" variant="none">Text</AeroButton>
+  <AeroButton type="info" variant="none">Text</AeroButton>
 </template>
 ```
 
@@ -41,13 +53,36 @@ Control the size via `size`: `large` (36px), `default` (32px), `small` (28px), o
 </template>
 ```
 
-## Disabled and loading
+## Disabled
 
-`disabled` disables the button; `loading` shows a loading state. Both suppress `click`.
+`disabled` disables the button; both `disabled` and `loading` suppress `click`.
 
 ```vue
 <template>
-  <AeroButton disabled>Disabled</AeroButton>
+  <AeroButton type="primary" disabled>Disabled</AeroButton>
+  <AeroButton type="success" disabled>Disabled</AeroButton>
+  <AeroButton type="warning" disabled>Disabled</AeroButton>
+  <AeroButton type="danger" disabled>Disabled</AeroButton>
+  <AeroButton type="info" disabled>Disabled</AeroButton>
+  <AeroButton type="primary" variant="plain" disabled>Disabled</AeroButton>
+  <AeroButton type="success" variant="plain" disabled>Disabled</AeroButton>
+  <AeroButton type="warning" variant="plain" disabled>Disabled</AeroButton>
+  <AeroButton type="danger" variant="plain" disabled>Disabled</AeroButton>
+  <AeroButton type="info" variant="plain" disabled>Disabled</AeroButton>
+  <AeroButton type="primary" variant="none" disabled>Disabled</AeroButton>
+  <AeroButton type="success" variant="none" disabled>Disabled</AeroButton>
+  <AeroButton type="warning" variant="none" disabled>Disabled</AeroButton>
+  <AeroButton type="danger" variant="none" disabled>Disabled</AeroButton>
+  <AeroButton type="info" variant="none" disabled>Disabled</AeroButton>
+</template>
+```
+
+## Loading
+
+`loading` shows a loading state; both `disabled` and `loading` suppress `click`.
+
+```vue
+<template>
   <AeroButton loading>Loading</AeroButton>
 </template>
 ```
