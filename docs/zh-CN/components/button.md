@@ -17,13 +17,14 @@
 
 ## 尺寸
 
-通过 `size` 控制按钮尺寸，支持 `large`、`main`、`small`。
+通过 `size` 控制按钮尺寸，支持 `large`（36px）、`default`（32px）、`small`（28px）、`mini`（24px）。
 
 ```vue
 <template>
   <AeroButton size="large">大按钮</AeroButton>
-  <AeroButton size="main">中按钮</AeroButton>
+  <AeroButton size="default">默认按钮</AeroButton>
   <AeroButton size="small">小按钮</AeroButton>
+  <AeroButton size="mini">迷你按钮</AeroButton>
 </template>
 ```
 
@@ -56,7 +57,7 @@
 | 属性名 | 说明 | 类型 | 默认值 |
 | ------ | ---- | ---- | ------ |
 | type | 按钮类型 | `'primary' \| 'default' \| 'danger' \| 'link'` | `'default'` |
-| size | 按钮尺寸 | `'large' \| 'main' \| 'small'` | `'main'` |
+| size | 按钮尺寸 | `'large' \| 'default' \| 'small' \| 'mini'` | `'default'` |
 | disabled | 是否禁用 | `boolean` | `false` |
 | loading | 是否加载中 | `boolean` | `false` |
 | icon | 图标名（经 AeroIcon 渲染） | `string` | — |

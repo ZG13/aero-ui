@@ -17,16 +17,22 @@
     border-color 0.2s,
     color 0.2s;
 
-  &--large {
-    height: 40px;
+  &--size-large {
+    height: 36px;
     padding: 0 var(--aero-space-16);
     font-size: var(--aero-typography-size-03);
   }
 
-  &--small {
-    height: 24px;
+  &--size-small {
+    height: 28px;
     padding: 0 var(--aero-space-8);
     font-size: var(--aero-typography-size-01);
+  }
+
+  &--size-mini {
+    height: 24px;
+    padding: 0 var(--aero-space-6);
+    font-size: var(--aero-typography-size-00);
   }
 
   &--primary {
@@ -74,11 +80,15 @@
     padding: 0;
     width: 32px;
 
-    &.aero-button--large {
-      width: 40px;
+    &.aero-button--size-large {
+      width: 36px;
     }
 
-    &.aero-button--small {
+    &.aero-button--size-small {
+      width: 28px;
+    }
+
+    &.aero-button--size-mini {
       width: 24px;
     }
   }

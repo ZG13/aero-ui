@@ -8,7 +8,7 @@ defineOptions({ name: 'AeroButton' });
 
 const props = withDefaults(defineProps<ButtonProps>(), {
   type: 'default',
-  size: 'main',
+  size: 'default',
   disabled: false,
   loading: false,
   nativeType: 'button',
@@ -33,7 +33,7 @@ function handleClick(event: MouseEvent) {
     class="aero-button"
     :class="[
       `aero-button--${type}`,
-      `aero-button--${size}`,
+      `aero-button--size-${size}`,
       { 'is-disabled': disabled, 'is-loading': loading, 'is-icon-only': !$slots.default },
     ]"
     :type="nativeType"

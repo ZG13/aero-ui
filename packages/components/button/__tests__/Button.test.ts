@@ -16,7 +16,7 @@ describe('AeroButton', () => {
       slots: { default: 'x' },
     });
     expect(wrapper.classes()).toContain('aero-button--danger');
-    expect(wrapper.classes()).toContain('aero-button--small');
+    expect(wrapper.classes()).toContain('aero-button--size-small');
   });
 
   it('nativeType 映射到原生按钮类型', () => {

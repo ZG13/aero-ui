@@ -59,7 +59,7 @@ import 'aero-ui/components/button/style/index.css';
 | prop | 类型 | 默认值 |
 |------|------|--------|
 | type | `'primary' \| 'default' \| 'danger' \| 'link'` | `'default'` |
-| size | `'large' \| 'main' \| 'small'` | `'main'` |
+| size | `'large' \| 'default' \| 'small' \| 'mini'`（36px / 32px / 28px / 24px） | `'default'` |
 | disabled | `boolean` | `false` |
 | loading | `boolean` | `false` |
 | icon | `string` | — |

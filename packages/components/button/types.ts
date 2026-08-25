@@ -1,11 +1,12 @@
 export type ButtonType = 'primary' | 'default' | 'danger' | 'link';
-export type ButtonSize = 'large' | 'main' | 'small';
+// 尺寸语义：large=36px / default=32px / small=28px / mini=24px
+export type ButtonSize = 'large' | 'default' | 'small' | 'mini';
 export type ButtonNativeType = 'button' | 'submit' | 'reset';
 
 export interface ButtonProps {
   /** @default 'default' */
   type?: ButtonType;
-  /** @default 'main' */
+  /** @default 'default' */
   size?: ButtonSize;
   /** @default false */
   disabled?: boolean;

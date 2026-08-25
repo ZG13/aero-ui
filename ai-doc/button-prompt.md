@@ -10,13 +10,13 @@
 
 ```ts
 export type ButtonType = 'primary' | 'default' | 'danger' | 'link';
-export type ButtonSize = 'large' | 'main' | 'small';
+export type ButtonSize = 'large' | 'default' | 'small' | 'mini';
 export type ButtonNativeType = 'button' | 'submit' | 'reset';
 
 export interface ButtonProps {
   /** @default 'default' */
   type?: ButtonType;
-  /** @default 'main' */
+  /** @default 'default' */
   size?: ButtonSize;
   /** @default false */
   disabled?: boolean;
@@ -43,7 +43,9 @@ export interface ButtonEmits {
 - 默认按钮：`background: var(--aero-bg-main)`、`border: 1px solid var(--aero-border-main)`、`color: var(--aero-text-main)`。
 - 尺寸/圆角/间距：`--aero-typography-size-*`、`--aero-radius-main`、`--aero-space-*`、`--aero-opacity-disabled`。
 
-DOM 类名（BEM）：`aero-button`、`aero-button--{type}`、`aero-button--{size}`、`aero-button__loading`、`aero-button__icon`、状态修饰 `is-disabled` / `is-loading` / `is-icon-only`。
+DOM 类名（BEM）：`aero-button`、`aero-button--{type}`、`aero-button--size-{size}`、`aero-button__loading`、`aero-button__icon`、状态修饰 `is-disabled` / `is-loading` / `is-icon-only`。
+
+尺寸对应：`large`=36px、`default`=32px、`small`=28px、`mini`=24px。
 
 ## 代码生成规则指引
 

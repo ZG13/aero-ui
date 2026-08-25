@@ -17,13 +17,14 @@ Use `type` and `size` to set the button variant and size.
 
 ## Sizes
 
-Control the size via `size`: `large`, `main`, or `small`.
+Control the size via `size`: `large` (36px), `default` (32px), `small` (28px), or `mini` (24px).
 
 ```vue
 <template>
   <AeroButton size="large">Large</AeroButton>
-  <AeroButton size="main">Main</AeroButton>
+  <AeroButton size="default">Default</AeroButton>
   <AeroButton size="small">Small</AeroButton>
+  <AeroButton size="mini">Mini</AeroButton>
 </template>
 ```
 
@@ -56,7 +57,7 @@ Pass an icon name via `icon`; it renders through `AeroIcon`.
 | Name | Description | Type | Default |
 | ---- | ----------- | ---- | ------- |
 | type | Button variant | `'primary' \| 'default' \| 'danger' \| 'link'` | `'default'` |
-| size | Button size | `'large' \| 'main' \| 'small'` | `'main'` |
+| size | Button size | `'large' \| 'default' \| 'small' \| 'mini'` | `'default'` |
 | disabled | Whether the button is disabled | `boolean` | `false` |
 | loading | Whether the button is loading | `boolean` | `false` |
 | icon | Icon name (rendered via AeroIcon) | `string` | — |

@@ -21,6 +21,6 @@ export default {
   },
   Layout: () =>
     h(DefaultTheme.Layout, null, {
-      'nav-bar-title-after': () => h(ThemeSwitch)
+      'nav-bar-content-after': () => h(ThemeSwitch)
     })
 }
