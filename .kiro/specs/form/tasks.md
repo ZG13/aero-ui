@@ -79,7 +79,7 @@
   - _Boundary: form-style, form-item-style（本任务有意跨 form/form-item 两个样式文件，因共享 token 与布局规范）_
 
 - [ ] 4. 集成（Integration）
-- [ ] 4.1 barrel 聚合与全局注册
+- [x] 4.1 barrel 聚合与全局注册
   - components/index.ts 与根 barrel 追加 form/form-item 导出，AeroUI.install 注册 AeroForm/AeroFormItem
   - 可观察完成：import { AeroForm, AeroFormItem } from 'aero-ui' 与 app.use(AeroUI) 均可解析
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
