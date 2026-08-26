@@ -1,14 +1,18 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, inject, ref } from 'vue';
 import AeroIcon from '../../icon';
 import { useLocale } from '../../../hooks';
+import { useFormSize, useFormDisabled } from '../../form/src/use-form';
+import { formItemContextKey } from '../../form/src/constants';
 import type { InputProps, InputEmits } from '../types';
 
 defineOptions({ name: 'AeroInput' });
 
+// disabled 显式默认 undefined：绕过 Vue 布尔 prop 的「未声明 → false」强转，
+// 使「未声明」与「声明 false」可区分，交由 useFormDisabled 按
+// 「自身 → formItem → form → 默认」解析；size 为字符串枚举，未声明时本即 undefined。
 const props = withDefaults(defineProps<InputProps>(), {
-  size: 'main',
-  disabled: false,
+  disabled: undefined,
   clearable: false,
   floating: true,
 });
@@ -16,6 +20,15 @@ const props = withDefaults(defineProps<InputProps>(), {
 const emit = defineEmits<InputEmits>();
 
 const { t } = useLocale();
+
+// 表单项上下文：存在时在 blur/change 触发字段即时校验，缺失时安全跳过。
+const formItemContext = inject(formItemContextKey, undefined);
+
+const inheritedSize = useFormSize(props.size);
+const inheritedDisabled = useFormDisabled(props.disabled);
+
+const size = computed(() => inheritedSize.value ?? 'main');
+const disabled = computed(() => inheritedDisabled.value);
 
 const placeholder = computed(() => props.placeholder ?? t('components.input.placeholder'));
 
@@ -29,7 +42,7 @@ const hasValue = computed(
 // Material outlined 风格：获得焦点或有值时，占位 label 上浮吸附到上边框。
 const isFloating = computed(() => focused.value || hasValue.value);
 
-const showClear = computed(() => props.clearable && !props.disabled && !!props.modelValue);
+const showClear = computed(() => props.clearable && !disabled.value && !!props.modelValue);
 
 function handleInput(event: Event) {
   const value = (event.target as HTMLInputElement).value;
@@ -45,7 +58,9 @@ function handleFocus(event: FocusEvent) {
 function handleBlur(event: FocusEvent) {
   focused.value = false;
   emit('blur', event);
+  formItemContext?.validate('blur');
   emit('change', (event.target as HTMLInputElement).value);
+  formItemContext?.validate('change');
 }
 
 function handleClear() {

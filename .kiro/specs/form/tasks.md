@@ -41,7 +41,7 @@
   - 可观察完成：hook 在无上下文时返回默认值，有上下文时正确继承
   - _Requirements: 5.1, 5.2, 5.3_
   - _Boundary: form-context_
-- [ ] 2.3 改造 AeroInput 消费表单上下文与触发校验
+- [x] 2.3 改造 AeroInput 消费表单上下文与触发校验
   - Input 的 size/disabled 改为经 useFormSize / useFormDisabled 解析
   - Input 的 size 类型与 FormSize（large/main/small）对齐，无上下文时行为与现状一致
   - Input 在 blur/change 事件时调用所在 formItem 的 validate(trigger)（若在表单项内）
