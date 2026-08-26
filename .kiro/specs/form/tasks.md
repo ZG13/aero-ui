@@ -92,12 +92,12 @@
   - 可观察完成：测试通过，覆盖上述行为
   - _Requirements: 8.4, 7.2_
   - _Boundary: form-test_
-- [ ] 5.2 (P) FormItem 单元测试
+- [x] 5.2 (P) FormItem 单元测试
   - prop 缺失不参与校验、required 星号、错误态更新、label/error 插槽、字段级 resetField/clearValidate
   - 可观察完成：测试通过，覆盖上述行为
   - _Requirements: 8.4_
   - _Boundary: form-item-test_
-- [ ] 5.3 (P) Input 上下文继承与触发校验测试
+- [x] 5.3 (P) Input 上下文继承与触发校验测试
   - 置于 form 上下文中 size/disabled 继承、字段级覆盖表单级、Input 自身 props 最高优先
   - blur/change 触发字段即时校验（trigger 场景）
   - 可观察完成：测试通过，覆盖继承优先级与触发校验
