@@ -1,6 +1,11 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 import { validateFieldValue } from '../src/validator';
+import { defaultLocale, i18n } from '../../../locale';
 import type { FormItemRule } from '../types';
+
+afterEach(() => {
+  i18n.global.locale.value = defaultLocale;
+});
 
 /** 捕获 reject 值并断言其为按字段组织错误结构（ValidateFieldsError[prop]） */
 async function captureRejection(
@@ -143,6 +148,32 @@ describe('validateFieldValue', () => {
     it('显式 message 优先于 locale 默认文案', async () => {
       const errors = await captureRejection('', [{ required: true, message: '自定义必填' }]);
       expect(errors[0].message).toBe('自定义必填');
+    });
+  });
+
+  describe('locale 切换（需求 7.2）', () => {
+    it('切换到 en 后默认错误文案更新为英文', async () => {
+      i18n.global.locale.value = 'en';
+      const errors = await captureRejection('', [{ required: true }]);
+      expect(errors[0].message).toBe('This field is required');
+    });
+
+    it('切回 zh-cn 后默认错误文案更新为中文', async () => {
+      i18n.global.locale.value = 'en';
+      i18n.global.locale.value = 'zh-cn';
+      const errors = await captureRejection('', [{ required: true }]);
+      expect(errors[0].message).toBe('该字段为必填项');
+    });
+
+    it('双向切换时文案随语言实时更新', async () => {
+      i18n.global.locale.value = 'en';
+      expect((await captureRejection('', [{ required: true }]))[0].message).toBe(
+        'This field is required',
+      );
+      i18n.global.locale.value = 'zh-cn';
+      expect((await captureRejection('', [{ required: true }]))[0].message).toBe(
+        '该字段为必填项',
+      );
     });
   });
 

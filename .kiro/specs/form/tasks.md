@@ -85,7 +85,7 @@
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
 
 - [ ] 5. 测试（Validation）
-- [ ] 5.1 (P) Form 与校验引擎单元测试
+- [x] 5.1 (P) Form 与校验引擎单元测试
   - validate 多字段成功/失败聚合、resetFields、clearValidate、validateField、validate 事件载荷
   - validator 规则（required/min/max/len/pattern/type/validator/asyncValidator）通过/失败、默认文案、trigger 过滤
   - 切换 locale 后默认错误文案随语言自动更新
