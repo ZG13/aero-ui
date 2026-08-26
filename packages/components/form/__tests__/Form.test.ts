@@ -17,7 +17,7 @@ function makeFormItemContext(
 ): FormItemContext {
   return {
     prop: 'name',
-    validate: () => Promise.resolve(),
+    validate: () => Promise.resolve([]),
     resetField: () => {},
     clearValidate: () => {},
     validateState: '',

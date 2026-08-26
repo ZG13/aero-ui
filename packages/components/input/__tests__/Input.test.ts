@@ -91,7 +91,7 @@ function makeFormItemContext(
 ): FormItemContext {
   return {
     prop: 'name',
-    validate: () => Promise.resolve(),
+    validate: () => Promise.resolve([]),
     resetField: () => {},
     clearValidate: () => {},
     validateState: '',
@@ -180,7 +180,7 @@ describe('AeroInput 表单上下文集成', () => {
 
   describe('触发校验（requirement 4.3）', () => {
     it('在 formItem 内 blur 触发 validate("blur")、change 触发 validate("change")', async () => {
-      const validate = vi.fn(() => Promise.resolve());
+      const validate = vi.fn(() => Promise.resolve([]));
       const wrapper = mountInput({
         props: { modelValue: 'x' },
         formItem: makeFormItemContext({ validate }),
