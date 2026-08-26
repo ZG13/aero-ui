@@ -17,6 +17,23 @@ const value = ref('')
 </script>
 ```
 
+## 浮动占位
+
+`placeholder` 在输入框**获得焦点或已有内容**时自动上浮吸附到上边框，空态时居中显示。设置 `floating` 为 `false` 可关闭浮动占位，改用原生占位展示。
+
+```vue
+<template>
+  <AeroInput v-model="value" placeholder="请输入内容" />
+  <AeroInput v-model="value2" placeholder="原生占位" :floating="false" />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+const value = ref('已有内容')
+const value2 = ref('')
+</script>
+```
+
 ## 禁用
 
 `disabled` 使输入框不可编辑。
@@ -75,6 +92,7 @@ const value = ref('')
 | disabled | 是否禁用 | `boolean` | `false` |
 | clearable | 是否可清空 | `boolean` | `false` |
 | size | 输入框尺寸 | `'large' \| 'main' \| 'small'` | `'main'` |
+| floating | 是否启用浮动占位（关闭后使用原生 placeholder） | `boolean` | `true` |
 
 ### Events
 

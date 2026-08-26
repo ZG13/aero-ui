@@ -41,6 +41,18 @@ describe('AeroInput', () => {
     expect(wrapper.find('.aero-input__clear').exists()).toBe(false);
   });
 
+  it('默认启用浮动占位，展示 label 且原生 placeholder 为空', () => {
+    const wrapper = mount(AeroInput, { props: { modelValue: '', placeholder: '请输入' } });
+    expect(wrapper.find('.aero-input__label').exists()).toBe(true);
+    expect(wrapper.find('input').attributes('placeholder')).toBe('');
+  });
+
+  it('floating 为 false 时移除 label 并使用原生 placeholder', () => {
+    const wrapper = mount(AeroInput, { props: { modelValue: '', placeholder: '请输入', floating: false } });
+    expect(wrapper.find('.aero-input__label').exists()).toBe(false);
+    expect(wrapper.find('input').attributes('placeholder')).toBe('请输入');
+  });
+
   it('导出对象带 install 方法', () => {
     expect(typeof AeroInput.install).toBe('function');
   });

@@ -17,6 +17,23 @@ const value = ref('')
 </script>
 ```
 
+## Floating placeholder
+
+`placeholder` floats up and docks onto the top border when the input is **focused or has a value**; it stays centered when empty. Set `floating` to `false` to disable the floating placeholder and use the native placeholder instead.
+
+```vue
+<template>
+  <AeroInput v-model="value" placeholder="Please enter" />
+  <AeroInput v-model="value2" placeholder="Native placeholder" :floating="false" />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+const value = ref('Already filled')
+const value2 = ref('')
+</script>
+```
+
 ## Disabled
 
 `disabled` makes the input non-editable.
@@ -75,6 +92,7 @@ const value = ref('')
 | disabled | Whether the input is disabled | `boolean` | `false` |
 | clearable | Whether the input is clearable | `boolean` | `false` |
 | size | Input size | `'large' \| 'main' \| 'small'` | `'main'` |
+| floating | Whether to enable the floating placeholder (falls back to native placeholder when disabled) | `boolean` | `true` |
 
 ### Events
 

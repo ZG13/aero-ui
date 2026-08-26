@@ -34,9 +34,37 @@
     font-size: inherit;
     line-height: 1;
 
+    // 视觉占位交给 .aero-input__label，原生 placeholder 仅保留可访问性语义。
     &::placeholder {
-      color: var(--aero-text-disabled);
+      color: transparent;
     }
+  }
+
+  // 关闭浮动占位时，还原原生 placeholder 的可视展示。
+  &.aero-input--static .aero-input__inner::placeholder {
+    color: var(--aero-text-disabled);
+  }
+
+  // 浮动占位 label：空态居中充当占位文案，聚焦/有值时上浮吸附到上边框。
+  &__label {
+    position: absolute;
+    left: calc(var(--aero-space-8) - var(--aero-space-2));
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: calc(100% - var(--aero-space-8) * 2);
+    padding: 0 var(--aero-space-2);
+    color: var(--aero-text-disabled);
+    font-size: inherit;
+    line-height: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    transition:
+      top 0.15s ease,
+      transform 0.15s ease,
+      font-size 0.15s ease,
+      color 0.15s ease;
   }
 
   &__clear {
@@ -47,6 +75,23 @@
     &:hover {
       color: var(--aero-text-main);
     }
+  }
+
+  // 聚焦时 label 跟随边框高亮
+  &:focus-within &__label {
+    color: var(--aero-primary-6);
+  }
+
+  // 上浮态：label 吸附到上边框，用背景色切开边框。
+  &.is-float &__label {
+    top: 0;
+    font-size: var(--aero-typography-size-01);
+    background: var(--aero-bg-main);
+  }
+
+  // small 尺寸的上浮 label 字号更小，避免在 24px 高输入框内过大。
+  &.is-float.aero-input--small &__label {
+    font-size: var(--aero-typography-size-00);
   }
 
   &.is-disabled {

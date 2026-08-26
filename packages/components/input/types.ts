@@ -9,6 +9,8 @@ export interface InputProps {
   clearable?: boolean;
   /** @default 'main' */
   size?: InputSize;
+  /** @default true */
+  floating?: boolean;
 }
 
 export interface InputEmits {
