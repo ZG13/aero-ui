@@ -27,7 +27,7 @@
   - _Boundary: foundation, locale_
 
 - [ ] 2. 校验引擎与上下文契约（Core）
-- [ ] 2.1 (P) 实现校验引擎适配：严格类型 → async-validator 规则，错误归一化
+- [x] 2.1 (P) 实现校验引擎适配：严格类型 → async-validator 规则，错误归一化
   - 将 FormItemRule 适配为 async-validator 规则项，受控 as 边界仅存在于本模块
   - 校验失败时返回按字段名组织的 { message, field } 错误结构
   - 规则缺失 message 时回退 locale 默认文案；按 trigger 过滤应执行的规则
