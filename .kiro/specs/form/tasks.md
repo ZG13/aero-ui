@@ -13,7 +13,7 @@
   - 所有类型含 JSDoc @default 且无 any
   - 可观察完成：类型文件通过 vue-tsc 类型检查且无 any
   - _Requirements: 8.2, 8.3_
-- [ ] 1.2 定义 form-item 公共类型：FormItemProps、FormItemEmits、FormItemValidateState
+- [x] 1.2 定义 form-item 公共类型：FormItemProps、FormItemEmits、FormItemValidateState
   - 覆盖 prop/label/required/rules/error/show-message/size 等表单项属性
   - FormItemValidateState 表达校验状态（空/错误）与校验消息
   - 复用 1.1 的 FormItemRule，不重复定义
