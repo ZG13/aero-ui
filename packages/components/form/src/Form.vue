@@ -2,8 +2,7 @@
 import { provide, reactive, ref, toRefs } from 'vue';
 import { formContextKey } from './constants';
 import type { FormContext, FormItemContext } from './constants';
-import type { FormProps, FormEmits, FormItemRule, ValidateFieldsError } from '../types';
-import { validateFieldValue } from './validator';
+import type { FormProps, FormEmits, ValidateFieldsError } from '../types';
 
 defineOptions({ name: 'AeroForm' });
 
@@ -74,38 +73,11 @@ function resolveProps(props?: string | string[]): string[] {
   return Array.isArray(props) ? props : [props];
 }
 
-/** 取指定字段的校验规则（统一为数组），无规则时返回空数组。 */
-function getRulesForProp(prop: string): FormItemRule[] {
-  const rule = rules.value[prop];
-  if (rule === undefined || rule === null) {
-    return [];
-  }
-  return Array.isArray(rule) ? rule : [rule];
-}
-
-/** 校验单个字段，返回该字段的错误列表（通过时为空数组）。 */
-async function validateProp(
-  prop: string,
-): Promise<Array<{ message: string; field: string }>> {
-  const fieldRules = getRulesForProp(prop);
-  if (fieldRules.length === 0) {
-    return [];
-  }
-  try {
-    await validateFieldValue(model.value[prop], fieldRules, prop);
-    return [];
-  } catch (error) {
-    if (Array.isArray(error)) {
-      return error as Array<{ message: string; field: string }>;
-    }
-    return [];
-  }
-}
-
 /**
- * 校验一组字段：逐字段执行，聚合失败结果并逐字段触发 `validate` 事件
- * （prop/isValid/message）。通过 resolve true；失败（无 callback）reject
- * `ValidateFieldsError`；有 callback 时以 (valid, invalidFields) 回调而不 reject。
+ * 校验一组字段：逐字段调用其 `FormItemContext.validate()`，让字段级校验状态
+ * （validateState/validateMessage）收敛于 FormItem，并聚合失败结果。每字段触发
+ * `validate` 事件（prop/isValid/message）。通过 resolve true；失败（无 callback）
+ * reject `ValidateFieldsError`；有 callback 时以 (valid, invalidFields) 回调而不 reject。
  */
 async function runValidation(
   propsList: string[],
@@ -114,11 +86,18 @@ async function runValidation(
   const invalidFields: ValidateFieldsError = {};
 
   for (const prop of propsList) {
-    const errors = await validateProp(prop);
-    const isValid = errors.length === 0;
-    emit('validate', prop, isValid, errors.map((e) => e.message).join(''));
-    if (!isValid) {
-      invalidFields[prop] = errors;
+    const field = fields.value.find((item) => item.prop === prop);
+    if (!field) continue;
+
+    try {
+      await field.validate(undefined);
+      emit('validate', prop, true, '');
+    } catch (errors) {
+      const list = Array.isArray(errors)
+        ? (errors as Array<{ message: string; field: string }>)
+        : [];
+      invalidFields[prop] = list;
+      emit('validate', prop, false, list.map((e) => e.message).join(''));
     }
   }
 

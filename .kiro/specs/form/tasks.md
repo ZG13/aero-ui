@@ -64,7 +64,7 @@
   - 可观察完成：validate 返回聚合结果，resetFields/clearValidate 正确更新字段状态
   - _Requirements: 2.7, 2.8, 2.9, 4.5, 4.6, 4.7, 8.1_
   - _Boundary: form_
-- [ ] 3.3 实现 AeroFormItem 表单项
+- [x] 3.3 实现 AeroFormItem 表单项
   - inject formContext、provide formItemContext，挂载时注册字段、卸载时注销
   - 渲染 label（必填星号）、默认内容插槽、错误消息、错误态与 status-icon（AeroIcon）
   - 字段级 validate(trigger)（按 trigger 过滤规则）/resetField/clearValidate，更新 validateState/validateMessage

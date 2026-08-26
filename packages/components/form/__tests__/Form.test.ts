@@ -28,6 +28,23 @@ function makeFormItemContext(
   };
 }
 
+/**
+ * 构造一个字段级校验会失败（validate reject 指定错误列表）的字段上下文。
+ * 3.3 起 Form.validate() 委托 `field.validate()` 聚合错误，故字段自身 validate 的结果
+ * 即为该字段的校验结果（字段级 rules 走同一路径）。
+ */
+function makeFailingField(
+  prop: string,
+  message: string,
+  overrides: Partial<FormItemContext> = {},
+): FormItemContext {
+  return makeFormItemContext({
+    prop,
+    validate: () => Promise.reject([{ message, field: prop }]),
+    ...overrides,
+  });
+}
+
 /** 注入 formContextKey 并捕获到外部变量，供断言读取上下文。 */
 function mountWithCapture(props?: Record<string, unknown>): {
   wrapper: ReturnType<typeof mount>;
@@ -155,7 +172,7 @@ describe('AeroForm', () => {
       model: { name: '' },
       rules: { name: { required: true, message: '姓名必填' } },
     });
-    context.addField(makeFormItemContext({ prop: 'name' }));
+    context.addField(makeFailingField('name', '姓名必填'));
 
     await expect(context.validate()).rejects.toEqual({
       name: [{ message: '姓名必填', field: 'name' }],
@@ -170,7 +187,7 @@ describe('AeroForm', () => {
         email: { required: true, message: '邮箱必填' },
       },
     });
-    context.addField(makeFormItemContext({ prop: 'name' }));
+    context.addField(makeFailingField('name', '姓名必填'));
     context.addField(makeFormItemContext({ prop: 'email' }));
 
     await expect(context.validate()).rejects.toEqual({
@@ -183,7 +200,7 @@ describe('AeroForm', () => {
       model: { name: '' },
       rules: { name: { required: true, message: '姓名必填' } },
     });
-    context.addField(makeFormItemContext({ prop: 'name' }));
+    context.addField(makeFailingField('name', '姓名必填'));
 
     const callback = vi.fn();
     const result = await context.validate(callback);
@@ -216,8 +233,8 @@ describe('AeroForm', () => {
         email: { required: true, message: '邮箱必填' },
       },
     });
-    context.addField(makeFormItemContext({ prop: 'name' }));
-    context.addField(makeFormItemContext({ prop: 'email' }));
+    context.addField(makeFailingField('name', '姓名必填'));
+    context.addField(makeFailingField('email', '邮箱必填'));
 
     await expect(context.validateField('name')).rejects.toEqual({
       name: [{ message: '姓名必填', field: 'name' }],
@@ -233,7 +250,7 @@ describe('AeroForm', () => {
       },
     });
     context.addField(makeFormItemContext({ prop: 'name' }));
-    context.addField(makeFormItemContext({ prop: 'email' }));
+    context.addField(makeFailingField('email', '邮箱必填'));
 
     await expect(context.validateField('name')).resolves.toBe(true);
   });
@@ -295,7 +312,7 @@ describe('AeroForm', () => {
         email: { required: true, message: '邮箱必填' },
       },
     });
-    context.addField(makeFormItemContext({ prop: 'name' }));
+    context.addField(makeFailingField('name', '姓名必填'));
     context.addField(makeFormItemContext({ prop: 'email' }));
 
     await context.validate().catch(() => {});
@@ -330,7 +347,7 @@ describe('AeroForm', () => {
       rules: { name: { required: true, message: '姓名必填' } },
       scrollToError: true,
     });
-    context.addField(makeFormItemContext({ prop: 'name' }));
+    context.addField(makeFailingField('name', '姓名必填'));
 
     const el = document.createElement('div');
     el.setAttribute('data-prop', 'name');
