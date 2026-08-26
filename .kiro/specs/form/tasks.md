@@ -34,7 +34,7 @@
   - 可观察完成：单字段校验函数可被调用，通过/失败结果符合 ValidateFieldsError 结构
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.7, 7.1_
   - _Boundary: validator_
-- [ ] 2.2 (P) 实现上下文契约：injection key 常量与 size/disabled 继承 hook
+- [x] 2.2 (P) 实现上下文契约：injection key 常量与 size/disabled 继承 hook
   - 定义 formContextKey / formItemContextKey（Symbol）及 FormContext / FormItemContext 类型
   - 实现 useFormSize / useFormDisabled，优先级为自身 prop → formItem → form → 默认值
   - FormItemContext 含 validate(trigger) 入口供子控件触发校验
@@ -103,3 +103,7 @@
   - 可观察完成：测试通过，覆盖继承优先级与触发校验
   - _Requirements: 8.4_
   - _Boundary: input-test_
+
+## Implementation Notes
+
+- 2.2 reviewer 跨任务契约：`FormItemContext.disabled` 为 `boolean`（非 undefined），任务 3.3 的 FormItem 必须在 `provide(formItemContextKey, ...)` 前折叠表单级 disabled（`formItemProps.disabled ?? formContext.disabled`），否则「未声明」与「声明 false」无法区分，表单级 disabled 会被吞掉。
