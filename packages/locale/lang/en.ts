@@ -9,6 +9,19 @@ const en = {
     input: {
       placeholder: 'Please enter',
     },
+    form: {
+      rules: {
+        required: 'This field is required',
+        min: 'Must be at least {min}',
+        max: 'Must be at most {max}',
+        len: 'Length must be {len}',
+        pattern: 'Format is invalid',
+        type: 'Type is invalid',
+        enum: 'Value is not in the allowed range',
+        whitespace: 'Must not be empty',
+        default: 'Validation failed',
+      },
+    },
   },
 } satisfies LanguagePack;
 

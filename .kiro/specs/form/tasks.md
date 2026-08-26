@@ -19,7 +19,7 @@
   - 复用 1.1 的 FormItemRule，不重复定义
   - 可观察完成：类型文件通过 vue-tsc 类型检查
   - _Requirements: 8.2_
-- [ ] 1.3 声明 async-validator 依赖，并补充 locale 校验文案
+- [x] 1.3 声明 async-validator 依赖，并补充 locale 校验文案
   - package.json 声明 async-validator 依赖（bundle 进产物，无需加入 vite external）
   - 在 zh-cn 与 en 语言包补充 components.form.rules.* 默认校验文案（required/min/max/len/pattern/type 等）
   - 可观察完成：pnpm 安装后类型可解析，语言包含 form 校验文案且两语言 key 对齐
