@@ -51,7 +51,7 @@
   - _Depends: 2.2_
 
 - [ ] 3. 组件实现（Core）
-- [ ] 3.1 实现 AeroForm 容器与字段注册生命周期
+- [x] 3.1 实现 AeroForm 容器与字段注册生命周期
   - provide formContext（reactive），字段注册 addField/removeField，卸载时注销
   - 布局属性（label-width/label-position/inline/size/disabled/show-message/status-icon）落地到容器渲染
   - 可观察完成：AeroForm 可渲染并承载 model/rules，内部字段注册/注销无泄漏
@@ -107,3 +107,5 @@
 ## Implementation Notes
 
 - 2.2 reviewer 跨任务契约：`FormItemContext.disabled` 为 `boolean`（非 undefined），任务 3.3 的 FormItem 必须在 `provide(formItemContextKey, ...)` 前折叠表单级 disabled（`formItemProps.disabled ?? formContext.disabled`），否则「未声明」与「声明 false」无法区分，表单级 disabled 会被吞掉。
+
+- 3.1 reviewer 交接（供 3.2/3.3）：(1) `Form.vue` 中 5 个校验方法为 stub，`TODO(3.2)` 标记 ×3（resetFields/clearValidate/scrollToField）；`validate`/`validateField` 无条件 resolve `true` 且**无** TODO 标记，3.2 必须**先**替换这两个（最高风险地雷），再实现其余并删除全部 TODO 标记。(2) `fields` 暴露在 provide 的 context 但不在 `FormContext` 接口（constants.ts）——设计里 `fields` 应保持内部，3.2 的聚合方法在 Form.vue 内闭包直接引用 `fields` ref 即可，勿放进公开 `FormContext`。(3) `labelSuffix`/`scrollToError` 本任务未消费：`scrollToError` 由 3.2 消费，`labelSuffix` 需 3.3 决定下传或移除。
