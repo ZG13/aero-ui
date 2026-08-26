@@ -38,3 +38,7 @@
 - [x] resolver — `AeroResolver`，对接 unplugin-vue-components 按需导入。Dependencies: foundation, core-components
 - [x] ai-friendliness — `AI_CONTEXT.md`、ai-doc prompt 模板、代码生成约定。Dependencies: core-components, theme, resolver
 - [x] docs-site — VitePress 组件文档站，中英双语镜像，每组件独立文档 + markdown 内嵌示例。Dependencies: foundation, theme, core-components
+
+## Phase 2 — 表单能力
+
+- [ ] form — `AeroForm`/`AeroFormItem`：表单容器与表单项，对齐 element-plus 的 model/rules/布局 API，async-validator 校验（严格类型封装），size/disabled context 传递（改造 Input 消费）。Dependencies: core-components, theme, i18n
