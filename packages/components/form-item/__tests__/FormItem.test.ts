@@ -215,6 +215,56 @@ describe('AeroFormItem', () => {
     expect(getCaptured()!.size).toBe('small');
   });
 
+  describe('标签宽度 labelWidth（2.3）', () => {
+    it('数值 labelWidth 归一化为 px', () => {
+      const { wrapper } = mountFormItem({
+        props: { prop: 'name', label: '姓名', labelWidth: 100 },
+      });
+      const label = wrapper.find('.aero-form-item__label');
+      expect(label.attributes('style')).toContain('width: 100px');
+    });
+
+    it('字符串 labelWidth 透传', () => {
+      const { wrapper } = mountFormItem({
+        props: { prop: 'name', label: '姓名', labelWidth: '10em' },
+      });
+      expect(wrapper.find('.aero-form-item__label').attributes('style')).toContain(
+        'width: 10em',
+      );
+    });
+
+    it('表单级 labelWidth 生效（item 未声明时）', () => {
+      const form = makeFormContext({ labelWidth: 120 });
+      const { wrapper } = mountFormItem({
+        props: { prop: 'name', label: '姓名' },
+        form,
+      });
+      expect(wrapper.find('.aero-form-item__label').attributes('style')).toContain(
+        'width: 120px',
+      );
+    });
+
+    it('item 级 labelWidth 覆盖表单级', () => {
+      const form = makeFormContext({ labelWidth: 120 });
+      const { wrapper } = mountFormItem({
+        props: { prop: 'name', label: '姓名', labelWidth: '80px' },
+        form,
+      });
+      expect(wrapper.find('.aero-form-item__label').attributes('style')).toContain(
+        'width: 80px',
+      );
+    });
+
+    it('未声明 labelWidth 时不应用宽度样式', () => {
+      const form = makeFormContext({ labelWidth: undefined });
+      const { wrapper } = mountFormItem({
+        props: { prop: 'name', label: '姓名' },
+        form,
+      });
+      expect(wrapper.find('.aero-form-item__label').attributes('style')).toBeUndefined();
+    });
+  });
+
   describe('字段级 validate', () => {
     it('校验失败更新 validateState=error 与 validateMessage，并 reject 错误列表', async () => {
       const form = makeFormContext({
@@ -245,8 +295,8 @@ describe('AeroFormItem', () => {
       });
       const item = getCaptured()!;
 
-      // blur/change 路径：更新错误状态并 resolve，不产生未处理的 Promise 拒绝
-      await expect(item.validate('blur')).resolves.toBeUndefined();
+      // blur/change 路径：更新错误状态并 resolve []，不产生未处理的 Promise 拒绝
+      await expect(item.validate('blur')).resolves.toEqual([]);
       expect(item.validateState).toBe('error');
       expect(item.validateMessage).toBe('姓名必填');
 
@@ -267,7 +317,7 @@ describe('AeroFormItem', () => {
       });
       const item = getCaptured()!;
 
-      await expect(item.validate(undefined)).resolves.toBeUndefined();
+      await expect(item.validate(undefined)).resolves.toEqual([]);
       expect(item.validateState).toBe('');
       expect(item.validateMessage).toBe('');
     });
@@ -312,7 +362,7 @@ describe('AeroFormItem', () => {
       });
       const item = getCaptured()!;
 
-      await expect(item.validate(undefined)).resolves.toBeUndefined();
+      await expect(item.validate(undefined)).resolves.toEqual([]);
       expect(item.validateState).toBe('');
     });
 
@@ -324,7 +374,7 @@ describe('AeroFormItem', () => {
       });
       const item = getCaptured()!;
 
-      await expect(item.validate(undefined)).resolves.toBeUndefined();
+      await expect(item.validate(undefined)).resolves.toEqual([]);
       expect(item.validateState).toBe('');
     });
   });

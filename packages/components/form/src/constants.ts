@@ -1,11 +1,12 @@
 import type { InjectionKey } from 'vue';
 import type {
+  FieldError,
+  FormItemValidateState,
   FormRules,
   FormSize,
   FormValidateTrigger,
   ValidateFieldsError,
 } from '../types';
-import type { FormItemValidateState } from '../../form-item/types';
 
 /**
  * AeroForm 通过 `provide` 下发的表单级响应式上下文。
@@ -69,16 +70,17 @@ export interface FormItemContext {
    * 校验结果会同步更新 `validateState` 与 `validateMessage`，并通过
    * `emit('validate', ...)` 通知表单。
    *
-   * 返回的 Promise 仅在**全量校验路径**（`trigger === undefined`，由
-   * AeroForm.validate/validateField 经 `field.validate(undefined)` 驱动）且失败时
-   * reject 该字段的错误列表 `Array<{ message: string; field: string }>`
-   * （即 `ValidateFieldsError[prop]`），供表单聚合错误。
+   * 返回的 Promise 在**全量校验路径**（`trigger === undefined`，由
+   * AeroForm.validate/validateField 经 `field.validate(undefined)` 驱动）时：
+   * - 通过 resolve `[]`；
+   * - 失败 reject 该字段的错误列表 `FieldError[]`（即 `ValidateFieldsError[prop]`），
+   *   供表单聚合错误。
    *
-   * blur/change 即时校验（`trigger === 'blur' | 'change'`）仅更新状态后 resolve，
+   * blur/change 即时校验（`trigger === 'blur' | 'change'`）仅更新状态后 resolve `[]`，
    * 不 reject —— 子控件（如 AeroInput）将其作为 fire-and-forget 副作用调用，
    * 无需 await/catch，也不会产生未处理的 Promise 拒绝（3.3）。
    */
-  validate: (trigger?: FormValidateTrigger) => Promise<void>;
+  validate: (trigger?: FormValidateTrigger) => Promise<FieldError[]>;
   /** 重置字段 */
   resetField: () => void;
   /** 清除字段校验状态与错误信息 */

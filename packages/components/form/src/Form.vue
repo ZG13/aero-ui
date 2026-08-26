@@ -2,7 +2,7 @@
 import { provide, reactive, ref, toRefs } from 'vue';
 import { formContextKey } from './constants';
 import type { FormContext, FormItemContext } from './constants';
-import type { FormProps, FormEmits, ValidateFieldsError } from '../types';
+import type { FormProps, FormEmits, ValidateFieldsError, FieldError } from '../types';
 
 defineOptions({ name: 'AeroForm' });
 
@@ -11,7 +11,6 @@ const props = withDefaults(defineProps<FormProps>(), {
   rules: () => ({}),
   labelWidth: 'auto',
   labelPosition: 'right',
-  labelSuffix: '',
   inline: false,
   disabled: false,
   showMessage: true,
@@ -93,9 +92,7 @@ async function runValidation(
       await field.validate(undefined);
       emit('validate', prop, true, '');
     } catch (errors) {
-      const list = Array.isArray(errors)
-        ? (errors as Array<{ message: string; field: string }>)
-        : [];
+      const list: FieldError[] = Array.isArray(errors) ? errors : [];
       invalidFields[prop] = list;
       emit('validate', prop, false, list.map((e) => e.message).join(''));
     }

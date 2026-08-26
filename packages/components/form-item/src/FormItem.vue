@@ -13,8 +13,8 @@ import {
 import { formContextKey, formItemContextKey } from '../../form/src/constants';
 import type { FormItemContext } from '../../form/src/constants';
 import { validateFieldValue } from '../../form/src/validator';
-import type { FormItemRule, FormValidateTrigger } from '../../form/types';
-import type { FormItemProps, FormItemEmits, FormItemValidateState } from '../types';
+import type { FieldError, FormItemRule, FormItemValidateState, FormValidateTrigger } from '../../form/types';
+import type { FormItemProps, FormItemEmits } from '../types';
 import AeroIcon from '../../icon';
 
 defineOptions({ name: 'AeroFormItem' });
@@ -41,6 +41,14 @@ const disabled = computed(() => props.disabled ?? formContext?.disabled ?? false
 const showMessage = computed(
   () => props.showMessage ?? formContext?.showMessage ?? true,
 );
+
+// 标签宽度：表单项级覆盖表单级；数值归一化为 px，字符串透传（2.3）。
+const labelWidth = computed(() => props.labelWidth ?? formContext?.labelWidth);
+const labelStyle = computed<Record<string, string> | undefined>(() => {
+  const width = labelWidth.value;
+  if (width === undefined) return undefined;
+  return { width: typeof width === 'number' ? `${width}px` : width };
+});
 
 // 字段校验状态：初始化自手动校验状态 prop，并随其变更同步。
 const validateState = ref<FormItemValidateState>(props.validateStatus ?? '');
@@ -102,12 +110,13 @@ const statusIconColor = computed(() =>
 
 /**
  * 字段级校验：解析有效规则，调用 validateFieldValue 执行，更新 validateState /
- * validateMessage，并通过 reject 携带字段错误列表（`ValidateFieldsError[prop]`），
- * 供 AeroForm 聚合。blur/change 触发时由子控件（AeroInput）作为副作用调用。
+ * validateMessage。全量路径（trigger === undefined）通过 resolve `[]`，失败 reject
+ * 字段错误列表 `FieldError[]`（即 `ValidateFieldsError[prop]`），供 AeroForm 聚合。
+ * blur/change 触发时由子控件（AeroInput）作为副作用调用，resolve `[]` 不 reject。
  */
-async function validate(trigger?: FormValidateTrigger): Promise<void> {
+async function validate(trigger?: FormValidateTrigger): Promise<FieldError[]> {
   const prop = props.prop;
-  if (!prop || !formContext) return;
+  if (!prop || !formContext) return [];
 
   const rules = getEffectiveRules();
 
@@ -115,7 +124,7 @@ async function validate(trigger?: FormValidateTrigger): Promise<void> {
     validateState.value = '';
     validateMessage.value = '';
     emit('validate', prop, true, '');
-    return;
+    return [];
   }
 
   validateState.value = 'validating';
@@ -125,9 +134,10 @@ async function validate(trigger?: FormValidateTrigger): Promise<void> {
     validateState.value = '';
     validateMessage.value = '';
     emit('validate', prop, true, '');
+    return [];
   } catch (errors) {
-    const list = Array.isArray(errors)
-      ? (errors as Array<{ message: string; field: string }>)
+    const list: FieldError[] = Array.isArray(errors)
+      ? (errors as FieldError[])
       : [];
     const message = list.length > 0 ? list[0].message : '';
     validateState.value = 'error';
@@ -139,6 +149,7 @@ async function validate(trigger?: FormValidateTrigger): Promise<void> {
     if (trigger === undefined) {
       throw list;
     }
+    return [];
   }
 }
 
@@ -195,7 +206,11 @@ onBeforeUnmount(() => {
     }"
     :data-prop="prop || undefined"
   >
-    <label v-if="label || slots.label" class="aero-form-item__label">
+    <label
+      v-if="label || slots.label"
+      class="aero-form-item__label"
+      :style="labelStyle"
+    >
       <slot name="label">
         <span v-if="isRequired" class="aero-form-item__required">*</span>
         {{ label }}

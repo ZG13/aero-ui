@@ -1,12 +1,7 @@
-import type { FormItemRule, FormSize } from '../form/types';
+import type { FormItemRule, FormItemValidateState, FormSize } from '../form/types';
 
-/**
- * 表单项校验状态：
- * - ''：无校验状态（默认）
- * - 'error'：校验失败
- * - 'validating'：校验进行中
- */
-export type FormItemValidateState = '' | 'error' | 'validating';
+// 表单项校验状态由 form 拥有（form-item 单向依赖 form），此处转出以保留公共 API。
+export type { FormItemValidateState };
 
 /**
  * AeroFormItem 表单项 props

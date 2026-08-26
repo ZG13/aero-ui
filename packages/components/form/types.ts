@@ -4,6 +4,14 @@
 export type FormSize = 'large' | 'main' | 'small';
 
 /**
+ * 表单项校验状态：
+ * - ''：无校验状态（默认）
+ * - 'error'：校验失败
+ * - 'validating'：校验进行中
+ */
+export type FormItemValidateState = '' | 'error' | 'validating';
+
+/**
  * 校验触发时机：
  * - blur：失焦时校验
  * - change：值变更时校验
@@ -83,12 +91,15 @@ export interface FormItemRule {
 export type FormRules = Record<string, FormItemRule | FormItemRule[]>;
 
 /**
+ * 单字段校验错误项：由 async-validator 归一化而来，仅保留 message 与 field。
+ * 与 `ValidateFieldsError[prop]` 的元素形状一致。
+ */
+export type FieldError = { message: string; field: string };
+
+/**
  * validate 校验失败时 reject 的错误结构，按字段名组织各字段错误信息
  */
-export type ValidateFieldsError = Record<
-  string,
-  Array<{ message: string; field: string }>
->;
+export type ValidateFieldsError = Record<string, FieldError[]>;
 
 /**
  * AeroForm 表单容器 props
@@ -102,8 +113,6 @@ export interface FormProps {
   labelWidth?: string | number;
   /** @default 'right' 标签位置 */
   labelPosition?: 'left' | 'right' | 'top';
-  /** @default '' 标签后缀 */
-  labelSuffix?: string;
   /** @default false 是否行内布局 */
   inline?: boolean;
   /** 表单级尺寸，传递给内部控件作为默认值 */
