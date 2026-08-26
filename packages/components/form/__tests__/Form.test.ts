@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { defineComponent, h, inject } from 'vue';
 import { mount } from '@vue/test-utils';
 import AeroForm from '../src/Form.vue';
@@ -29,7 +29,7 @@ function makeFormItemContext(
 }
 
 /** 注入 formContextKey 并捕获到外部变量，供断言读取上下文。 */
-function mountWithCapture(): {
+function mountWithCapture(props?: Record<string, unknown>): {
   wrapper: ReturnType<typeof mount>;
   context: ProvidedFormContext;
 } {
@@ -43,6 +43,7 @@ function mountWithCapture(): {
   });
 
   const wrapper = mount(AeroForm, {
+    props,
     slots: { default: () => h(Probe) },
   });
 
@@ -135,5 +136,212 @@ describe('AeroForm', () => {
     expect(() => context.resetFields()).not.toThrow();
     expect(() => context.clearValidate()).not.toThrow();
     expect(() => context.scrollToField('name')).not.toThrow();
+  });
+
+  // ─────────────────────────────── 3.2 校验方法 ───────────────────────────────
+
+  it('validate: 全部字段通过时 resolve true', async () => {
+    const { context } = mountWithCapture({
+      model: { name: 'aero' },
+      rules: { name: { required: true, message: '姓名必填' } },
+    });
+    context.addField(makeFormItemContext({ prop: 'name' }));
+
+    await expect(context.validate()).resolves.toBe(true);
+  });
+
+  it('validate: 字段校验失败时 reject 以 prop 为 key 的错误结构', async () => {
+    const { context } = mountWithCapture({
+      model: { name: '' },
+      rules: { name: { required: true, message: '姓名必填' } },
+    });
+    context.addField(makeFormItemContext({ prop: 'name' }));
+
+    await expect(context.validate()).rejects.toEqual({
+      name: [{ message: '姓名必填', field: 'name' }],
+    });
+  });
+
+  it('validate: 多字段部分失败时聚合全部错误字段', async () => {
+    const { context } = mountWithCapture({
+      model: { name: '', email: 'aero' },
+      rules: {
+        name: { required: true, message: '姓名必填' },
+        email: { required: true, message: '邮箱必填' },
+      },
+    });
+    context.addField(makeFormItemContext({ prop: 'name' }));
+    context.addField(makeFormItemContext({ prop: 'email' }));
+
+    await expect(context.validate()).rejects.toEqual({
+      name: [{ message: '姓名必填', field: 'name' }],
+    });
+  });
+
+  it('validate: 传入 callback 时以 (valid, invalidFields) 调用且不 reject', async () => {
+    const { context } = mountWithCapture({
+      model: { name: '' },
+      rules: { name: { required: true, message: '姓名必填' } },
+    });
+    context.addField(makeFormItemContext({ prop: 'name' }));
+
+    const callback = vi.fn();
+    const result = await context.validate(callback);
+
+    expect(result).toBe(false);
+    expect(callback).toHaveBeenCalledWith(false, {
+      name: [{ message: '姓名必填', field: 'name' }],
+    });
+  });
+
+  it('validate: 全部通过时 callback 收到 (true, undefined)', async () => {
+    const { context } = mountWithCapture({
+      model: { name: 'aero' },
+      rules: { name: { required: true, message: '姓名必填' } },
+    });
+    context.addField(makeFormItemContext({ prop: 'name' }));
+
+    const callback = vi.fn();
+    const result = await context.validate(callback);
+
+    expect(result).toBe(true);
+    expect(callback).toHaveBeenCalledWith(true, undefined);
+  });
+
+  it('validateField: 仅校验指定字段，忽略其它字段', async () => {
+    const { context } = mountWithCapture({
+      model: { name: '', email: '' },
+      rules: {
+        name: { required: true, message: '姓名必填' },
+        email: { required: true, message: '邮箱必填' },
+      },
+    });
+    context.addField(makeFormItemContext({ prop: 'name' }));
+    context.addField(makeFormItemContext({ prop: 'email' }));
+
+    await expect(context.validateField('name')).rejects.toEqual({
+      name: [{ message: '姓名必填', field: 'name' }],
+    });
+  });
+
+  it('validateField: 指定字段通过时 resolve true', async () => {
+    const { context } = mountWithCapture({
+      model: { name: 'aero', email: '' },
+      rules: {
+        name: { required: true, message: '姓名必填' },
+        email: { required: true, message: '邮箱必填' },
+      },
+    });
+    context.addField(makeFormItemContext({ prop: 'name' }));
+    context.addField(makeFormItemContext({ prop: 'email' }));
+
+    await expect(context.validateField('name')).resolves.toBe(true);
+  });
+
+  it('resetFields: 恢复模型初始值并清除字段校验状态', () => {
+    const { context } = mountWithCapture({
+      model: { name: 'initial' },
+      rules: {},
+    });
+    const clearValidate = vi.fn();
+    context.addField(makeFormItemContext({ prop: 'name', clearValidate }));
+
+    context.model.name = 'changed';
+    context.resetFields();
+
+    expect(context.model.name).toBe('initial');
+    expect(clearValidate).toHaveBeenCalledTimes(1);
+  });
+
+  it('resetFields: 无参数时重置全部字段', () => {
+    const { context } = mountWithCapture({
+      model: { name: 'initial', email: 'a@b.c' },
+      rules: {},
+    });
+    const clearName = vi.fn();
+    const clearEmail = vi.fn();
+    context.addField(makeFormItemContext({ prop: 'name', clearValidate: clearName }));
+    context.addField(makeFormItemContext({ prop: 'email', clearValidate: clearEmail }));
+
+    context.model.name = 'changed';
+    context.model.email = 'changed@b.c';
+    context.resetFields();
+
+    expect(context.model.name).toBe('initial');
+    expect(context.model.email).toBe('a@b.c');
+    expect(clearName).toHaveBeenCalledTimes(1);
+    expect(clearEmail).toHaveBeenCalledTimes(1);
+  });
+
+  it('clearValidate: 清除校验状态但不重置值', () => {
+    const { context } = mountWithCapture({
+      model: { name: 'changed' },
+      rules: {},
+    });
+    const clearValidate = vi.fn();
+    context.addField(makeFormItemContext({ prop: 'name', clearValidate }));
+
+    context.clearValidate();
+
+    expect(context.model.name).toBe('changed');
+    expect(clearValidate).toHaveBeenCalledTimes(1);
+  });
+
+  it('validate: 触发 validate 事件（prop/isValid/message）', async () => {
+    const { wrapper, context } = mountWithCapture({
+      model: { name: '', email: 'aero' },
+      rules: {
+        name: { required: true, message: '姓名必填' },
+        email: { required: true, message: '邮箱必填' },
+      },
+    });
+    context.addField(makeFormItemContext({ prop: 'name' }));
+    context.addField(makeFormItemContext({ prop: 'email' }));
+
+    await context.validate().catch(() => {});
+
+    const events = wrapper.emitted('validate');
+    expect(events).toBeDefined();
+    expect(events).toHaveLength(2);
+    expect(events![0]).toEqual(['name', false, '姓名必填']);
+    expect(events![1]).toEqual(['email', true, '']);
+  });
+
+  it('scrollToField: 滚动到目标字段，元素不存在时安全 no-op', () => {
+    const { context } = mountWithCapture();
+
+    const el = document.createElement('div');
+    el.setAttribute('data-prop', 'name');
+    const scrollIntoViewMock = vi.fn();
+    el.scrollIntoView = scrollIntoViewMock;
+    document.body.appendChild(el);
+
+    expect(() => context.scrollToField('name')).not.toThrow();
+    expect(scrollIntoViewMock).toHaveBeenCalledTimes(1);
+
+    expect(() => context.scrollToField('missing')).not.toThrow();
+
+    document.body.removeChild(el);
+  });
+
+  it('validate: scrollToError=true 时校验失败滚动到第一个错误字段', async () => {
+    const { context } = mountWithCapture({
+      model: { name: '' },
+      rules: { name: { required: true, message: '姓名必填' } },
+      scrollToError: true,
+    });
+    context.addField(makeFormItemContext({ prop: 'name' }));
+
+    const el = document.createElement('div');
+    el.setAttribute('data-prop', 'name');
+    const scrollIntoViewMock = vi.fn();
+    el.scrollIntoView = scrollIntoViewMock;
+    document.body.appendChild(el);
+
+    await context.validate().catch(() => {});
+
+    expect(scrollIntoViewMock).toHaveBeenCalledTimes(1);
+
+    document.body.removeChild(el);
   });
 });

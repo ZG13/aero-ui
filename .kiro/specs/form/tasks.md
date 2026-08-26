@@ -57,7 +57,7 @@
   - 可观察完成：AeroForm 可渲染并承载 model/rules，内部字段注册/注销无泄漏
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 8.1_
   - _Boundary: form_
-- [ ] 3.2 实现 AeroForm 校验方法与事件
+- [x] 3.2 实现 AeroForm 校验方法与事件
   - 实现 validate（聚合遍历字段，失败 reject ValidateFieldsError）、validateField、resetFields、clearValidate、scrollToField
   - resetFields 恢复初始值并清校验，clearValidate 清指定/全部；校验完成触发 validate 事件（prop/isValid/message）
   - 无 prop 的字段不纳入校验与重置
@@ -109,3 +109,5 @@
 - 2.2 reviewer 跨任务契约：`FormItemContext.disabled` 为 `boolean`（非 undefined），任务 3.3 的 FormItem 必须在 `provide(formItemContextKey, ...)` 前折叠表单级 disabled（`formItemProps.disabled ?? formContext.disabled`），否则「未声明」与「声明 false」无法区分，表单级 disabled 会被吞掉。
 
 - 3.1 reviewer 交接（供 3.2/3.3）：(1) `Form.vue` 中 5 个校验方法为 stub，`TODO(3.2)` 标记 ×3（resetFields/clearValidate/scrollToField）；`validate`/`validateField` 无条件 resolve `true` 且**无** TODO 标记，3.2 必须**先**替换这两个（最高风险地雷），再实现其余并删除全部 TODO 标记。(2) `fields` 暴露在 provide 的 context 但不在 `FormContext` 接口（constants.ts）——设计里 `fields` 应保持内部，3.2 的聚合方法在 Form.vue 内闭包直接引用 `fields` ref 即可，勿放进公开 `FormContext`。(3) `labelSuffix`/`scrollToError` 本任务未消费：`scrollToError` 由 3.2 消费，`labelSuffix` 需 3.3 决定下传或移除。
+
+- 3.2 reviewer 架构缺口（**必须在 3.3 解决**）：`Form.validate()` 现直接委托 `validateFieldValue`，绕过了 `FormItemContext.validate()`，导致 (a) 提交校验失败时不更新 FormItem 的 `validateState`/`validateMessage`（需求 3.7 错误展示失效）；(b) FormItem 级 `rules`（需求 3.4）被 form 级校验忽略。根因：`constants.ts` 中 `FormItemContext.validate` 被 2.2 定为 `Promise<void>`，无法向聚合方返回错误载荷。3.3 需**修改 `constants.ts`**：让 `FormItemContext.validate(trigger?)` 返回/拒绝携带字段错误列表（如 `Promise<Array<{message,field}>>` 或 reject `ValidateFieldsError[prop]`），并让 `Form.validate()` 遍历 `fields` 调 `field.validate(undefined)` 聚合——恢复设计「字段级状态收敛于 FormItem」的不变量，使 form 级与 item 级 rules 走同一路径。此改动对 `AeroInput` 的 blur/change 调用点（仅副作用）非破坏。
