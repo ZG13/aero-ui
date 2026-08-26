@@ -1,0 +1,64 @@
+// AeroForm 容器样式：负责表单整体布局（垂直堆叠 / 行内）、尺寸与标签位置。
+// 只消费 --aero-* 语义 token，明暗主题随 token 自动切换。
+.aero-form {
+  display: block;
+  box-sizing: border-box;
+
+  // 默认垂直堆叠：相邻表单项之间以垂直间距分隔
+  > .aero-form-item + .aero-form-item {
+    margin-top: var(--aero-space-16);
+  }
+
+  // 行内布局：单行水平排列，空间不足时换行
+  &--inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--aero-space-8) var(--aero-space-12);
+
+    > .aero-form-item + .aero-form-item {
+      margin-top: 0;
+    }
+  }
+
+  // 尺寸修饰符：影响标签/错误文案字号（控件自身尺寸由 Input 的 size 控制）
+  &--large .aero-form-item {
+    font-size: var(--aero-typography-size-03);
+  }
+
+  &--main .aero-form-item {
+    font-size: var(--aero-typography-size-02);
+  }
+
+  &--small .aero-form-item {
+    font-size: var(--aero-typography-size-01);
+  }
+
+  // 标签位置：top（标签在内容上方）
+  &--label-top {
+    .aero-form-item {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .aero-form-item__label {
+      text-align: left;
+    }
+  }
+
+  // 标签位置：left（标签在内容左侧，左对齐）
+  &--label-left .aero-form-item__label {
+    text-align: left;
+  }
+
+  // 标签位置：right（标签在内容左侧，右对齐，默认）
+  &--label-right .aero-form-item__label {
+    text-align: right;
+  }
+
+  // 禁用态：整表降透明度并禁用光标
+  &.is-disabled {
+    opacity: var(--aero-opacity-disabled);
+    cursor: not-allowed;
+  }
+}

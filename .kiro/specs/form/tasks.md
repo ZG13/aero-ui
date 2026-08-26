@@ -71,7 +71,7 @@
   - 可观察完成：AeroFormItem 展示 label/内容/状态图标，校验失败时展示错误并进入错误态，blur/change 触发对应即时校验
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 4.1, 4.3, 5.1, 5.2, 5.3, 8.1_
   - _Boundary: form-item_
-- [ ] 3.4 (P) 实现表单与表单项样式
+- [x] 3.4 (P) 实现表单与表单项样式
   - .aero-form 与 .aero-form-item 的 BEM 类名与布局（label 位置/宽度、行内、错误态、必填星号）
   - 仅消费 --aero-* 语义 token，错误态用 --aero-danger-* 与 --aero-border-*
   - 可观察完成：明暗主题下样式正确，错误态视觉符合语义 token 约束
