@@ -104,6 +104,13 @@
   - _Requirements: 8.4_
   - _Boundary: input-test_
 
+- [ ] 6. 文档（Documentation）
+- [x] 6.1 编写 form 中英文档并接入文档站
+  - 编写 docs/zh-CN/components/form.md 与 docs/en-US/components/form.md，覆盖 AeroForm/AeroFormItem 的用法示例（model/rules/校验/布局/size/disabled/实例方法）与完整 API 表格（Attributes/Methods/Events/Slots/FormItemRule）
+  - 在 config.mts 双语侧边栏追加 Form 入口，在 theme/index.ts 注册 AeroForm/AeroFormItem 并引入其样式
+  - 可观察完成：docs:build 成功，双语 form 页面可访问，示例渲染正常
+  - _Boundary: form-docs_
+
 ## Implementation Notes
 
 - 2.2 reviewer 跨任务契约：`FormItemContext.disabled` 为 `boolean`（非 undefined），任务 3.3 的 FormItem 必须在 `provide(formItemContextKey, ...)` 前折叠表单级 disabled（`formItemProps.disabled ?? formContext.disabled`），否则「未声明」与「声明 false」无法区分，表单级 disabled 会被吞掉。

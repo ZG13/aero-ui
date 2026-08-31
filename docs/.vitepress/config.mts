@@ -32,7 +32,8 @@ export default defineConfig({
               items: [
                 { text: 'Button 按钮', link: '/zh-CN/components/button' },
                 { text: 'Input 输入框', link: '/zh-CN/components/input' },
-                { text: 'Icon 图标', link: '/zh-CN/components/icon' }
+                { text: 'Icon 图标', link: '/zh-CN/components/icon' },
+                { text: 'Form 表单', link: '/zh-CN/components/form' }
               ]
             }
           ]
@@ -56,7 +57,8 @@ export default defineConfig({
               items: [
                 { text: 'Button', link: '/en-US/components/button' },
                 { text: 'Input', link: '/en-US/components/input' },
-                { text: 'Icon', link: '/en-US/components/icon' }
+                { text: 'Icon', link: '/en-US/components/icon' },
+                { text: 'Form', link: '/en-US/components/form' }
               ]
             }
           ]

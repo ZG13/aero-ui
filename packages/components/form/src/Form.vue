@@ -186,6 +186,15 @@ const context: FormContext & { fields: FormItemContext[] } = reactive({
 });
 
 provide(formContextKey, context);
+
+// 暴露校验与重置等实例方法，供消费者经模板 ref 调用（对齐 element-plus 的 el-form 实例 API）。
+defineExpose({
+  validate,
+  validateField,
+  resetFields,
+  clearValidate,
+  scrollToField,
+});
 </script>
 
 <template>

@@ -194,6 +194,13 @@ onMounted(() => {
 onBeforeUnmount(() => {
   formContext?.removeField(formItemContext);
 });
+
+// 暴露字段级校验/重置/清校验方法，供消费者经模板 ref 调用。
+defineExpose({
+  validate,
+  resetField,
+  clearValidate,
+});
 </script>
 
 <template>

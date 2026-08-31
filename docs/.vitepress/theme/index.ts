@@ -3,10 +3,14 @@ import DefaultTheme from 'vitepress/theme'
 import AeroButton from 'aero-ui/components/button'
 import AeroInput from 'aero-ui/components/input'
 import AeroIcon from 'aero-ui/components/icon'
+import AeroForm from 'aero-ui/components/form'
+import AeroFormItem from 'aero-ui/components/form-item'
 import 'aero-ui/theme/index.scss'
 import 'aero-ui/components/button/style/index.scss'
 import 'aero-ui/components/input/style/index.scss'
 import 'aero-ui/components/icon/style/index.scss'
+import 'aero-ui/components/form/style/index.scss'
+import 'aero-ui/components/form-item/style/index.scss'
 import ThemeSwitch from './ThemeSwitch.vue'
 import DemoBlock from './DemoBlock.vue'
 import IconGrid from './IconGrid.vue'
@@ -18,6 +22,8 @@ export default {
     app.use(AeroButton)
     app.use(AeroInput)
     app.use(AeroIcon)
+    app.use(AeroForm)
+    app.use(AeroFormItem)
     app.component('DemoBlock', DemoBlock)
     app.component('IconGrid', IconGrid)
   },

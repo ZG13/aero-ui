@@ -361,4 +361,24 @@ describe('AeroForm', () => {
 
     document.body.removeChild(el);
   });
+
+  it('defineExpose 暴露 validate/validateField/resetFields/clearValidate/scrollToField 实例方法', () => {
+    const wrapper = mount(AeroForm, {
+      props: { model: { name: 'aero' } },
+    });
+
+    const vm = wrapper.vm as unknown as {
+      validate: unknown;
+      validateField: unknown;
+      resetFields: unknown;
+      clearValidate: unknown;
+      scrollToField: unknown;
+    };
+
+    expect(typeof vm.validate).toBe('function');
+    expect(typeof vm.validateField).toBe('function');
+    expect(typeof vm.resetFields).toBe('function');
+    expect(typeof vm.clearValidate).toBe('function');
+    expect(typeof vm.scrollToField).toBe('function');
+  });
 });
