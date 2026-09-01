@@ -4,6 +4,7 @@ import { AeroInput } from './components/input';
 import { AeroIcon } from './components/icon';
 import { AeroForm } from './components/form';
 import { AeroFormItem } from './components/form-item';
+import { AeroSelect, AeroOption } from './components/select';
 import type { App } from 'vue';
 
 export * from './components';
@@ -16,6 +17,8 @@ const AeroUI = {
     app.use(AeroIcon);
     app.use(AeroForm);
     app.use(AeroFormItem);
+    app.use(AeroSelect);
+    app.use(AeroOption);
   },
 };
 

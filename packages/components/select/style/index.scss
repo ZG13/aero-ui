@@ -1,0 +1,211 @@
+// AeroSelect 下拉选择样式：触发器、下拉面板与选项行。
+// 只消费 --aero-* 语义 token，明暗主题随 token 自动切换。
+.aero-select {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+
+  &__trigger {
+    display: flex;
+    align-items: center;
+    position: relative;
+    min-height: 32px;
+    padding: 0 var(--aero-space-8);
+    border: 1px solid var(--aero-border-main);
+    border-radius: var(--aero-radius-main);
+    background: var(--aero-bg-main);
+    cursor: pointer;
+    transition: border-color 0.2s;
+    gap: var(--aero-space-4);
+
+    // 键盘可达的焦点态（element-plus 对齐）
+    &:focus-visible {
+      outline: none;
+      border-color: var(--aero-primary-6);
+    }
+  }
+
+  // 尺寸修饰符
+  &--large .aero-select__trigger {
+    min-height: 40px;
+    font-size: var(--aero-typography-size-03);
+  }
+
+  &--small .aero-select__trigger {
+    min-height: 24px;
+    font-size: var(--aero-typography-size-01);
+  }
+
+  &__placeholder {
+    color: var(--aero-text-disabled);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__value {
+    color: var(--aero-text-main);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--aero-space-2);
+    flex: 1;
+    align-items: center;
+  }
+
+  &__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--aero-space-2);
+    padding: 0 var(--aero-space-4);
+    border: 1px solid var(--aero-border-light);
+    border-radius: var(--aero-radius-small);
+    background: var(--aero-bg-subtle);
+    font-size: var(--aero-typography-size-01);
+    color: var(--aero-text-main);
+  }
+
+  &__tag-close {
+    color: var(--aero-text-tertiary);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--aero-text-main);
+    }
+  }
+
+  &__filter {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--aero-text-main);
+    font-size: inherit;
+    line-height: 1;
+    min-width: 0;
+  }
+
+  // 清空按钮：element-plus 圆形 hover 效果（默认 placeholder 灰，hover 变深 + 浅灰圆底）
+  &__clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: var(--aero-radius-full);
+    color: var(--aero-text-disabled);
+    cursor: pointer;
+    transition:
+      color 0.2s,
+      background-color 0.2s;
+
+    &:hover {
+      color: var(--aero-text-secondary);
+      background-color: var(--aero-fill-light);
+    }
+  }
+
+  // 下拉箭头：CSS 绘制三角（currentColor，随明暗自动适配）
+  &__arrow {
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid var(--aero-text-tertiary);
+    transition: transform 0.2s;
+  }
+
+  // 展开态：箭头旋转朝上
+  &.is-open .aero-select__arrow {
+    transform: rotate(180deg);
+  }
+
+  // 禁用态
+  &.is-disabled {
+    .aero-select__trigger {
+      opacity: var(--aero-opacity-disabled);
+      cursor: not-allowed;
+    }
+  }
+
+  // 下拉面板：teleport 到 body，由组件按触发器 getBoundingClientRect 计算
+  // top/left/width（fixed + viewport 坐标），无需依赖触发器的定位上下文
+  &__panel {
+    position: fixed;
+    z-index: 2000;
+    box-sizing: border-box;
+    max-height: 256px;
+    overflow-y: auto;
+    margin-top: var(--aero-space-2);
+    padding: var(--aero-space-2);
+    border: 1px solid var(--aero-border-main);
+    border-radius: var(--aero-radius-main);
+    background: var(--aero-bg-main);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  &__empty {
+    padding: var(--aero-space-4) var(--aero-space-8);
+    color: var(--aero-text-disabled);
+    text-align: center;
+    font-size: var(--aero-typography-size-01);
+  }
+}
+
+// 选项行（由 AeroSelect 渲染）
+.aero-option {
+  display: flex;
+  align-items: center;
+  padding: var(--aero-space-4) var(--aero-space-8);
+  border-radius: var(--aero-radius-small);
+  color: var(--aero-text-main);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--aero-bg-subtle);
+  }
+
+  // 键盘导航高亮态（与 hover 一致，element-plus 对齐）
+  &.is-active {
+    background: var(--aero-bg-subtle);
+  }
+
+  &.is-selected {
+    color: var(--aero-primary-6);
+    font-weight: 500;
+  }
+
+  &.is-disabled {
+    opacity: var(--aero-opacity-disabled);
+    cursor: not-allowed;
+
+    &:hover {
+      background: transparent;
+    }
+  }
+
+  &__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+// 面板展开/收起过渡
+.aero-select-enter-active,
+.aero-select-leave-active {
+  transition: opacity 0.15s;
+}
+
+.aero-select-enter-from,
+.aero-select-leave-to {
+  opacity: 0;
+}

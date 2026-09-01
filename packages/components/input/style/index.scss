@@ -67,13 +67,25 @@
       color 0.15s ease;
   }
 
+  // 清空按钮：element-plus 圆形 hover 效果（默认 placeholder 灰，hover 变深 + 浅灰圆底）
   &__clear {
-    margin-left: var(--aero-space-4);
-    color: var(--aero-text-tertiary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    margin-left: var(--aero-space-2);
+    border-radius: var(--aero-radius-full);
+    color: var(--aero-text-disabled);
     cursor: pointer;
+    transition:
+      color 0.2s,
+      background-color 0.2s;
 
     &:hover {
-      color: var(--aero-text-main);
+      color: var(--aero-text-secondary);
+      background-color: var(--aero-fill-light);
     }
   }
 

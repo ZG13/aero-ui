@@ -9,6 +9,10 @@ const zhCn = {
     input: {
       placeholder: '请输入',
     },
+    select: {
+      placeholder: '请选择',
+      empty: '无匹配选项',
+    },
     form: {
       rules: {
         required: '该字段为必填项',

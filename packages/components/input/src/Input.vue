@@ -86,6 +86,7 @@ function handleClear() {
       v-if="showClear"
       class="aero-input__clear"
       name="close"
+      :size="10"
       color="currentColor"
       @click="handleClear"
     />

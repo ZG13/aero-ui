@@ -9,6 +9,10 @@ const en = {
     input: {
       placeholder: 'Please enter',
     },
+    select: {
+      placeholder: 'Please select',
+      empty: 'No matching options',
+    },
     form: {
       rules: {
         required: 'This field is required',
