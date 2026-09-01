@@ -6,6 +6,10 @@ import AeroUI, {
   AeroFormItem,
   AeroIcon,
   AeroInput,
+  AeroInputNumber,
+  AeroSelect,
+  AeroOption,
+  AeroDatePicker,
 } from '../index';
 
 describe('根 barrel 与 AeroUI 全局注册', () => {
@@ -15,9 +19,15 @@ describe('根 barrel 与 AeroUI 全局注册', () => {
     expect(AeroIcon).toBeDefined();
     expect(AeroForm).toBeDefined();
     expect(AeroFormItem).toBeDefined();
+    expect(AeroSelect).toBeDefined();
+    expect(AeroOption).toBeDefined();
+    expect(AeroInputNumber).toBeDefined();
+    expect(AeroDatePicker).toBeDefined();
     expect(typeof AeroButton.install).toBe('function');
     expect(typeof AeroForm.install).toBe('function');
     expect(typeof AeroFormItem.install).toBe('function');
+    expect(typeof AeroInputNumber.install).toBe('function');
+    expect(typeof AeroDatePicker.install).toBe('function');
   });
 
   it('默认导出 AeroUI 含 install，app.use 后全部组件全局可用', () => {
@@ -31,5 +41,9 @@ describe('根 barrel 与 AeroUI 全局注册', () => {
     expect(app.component('AeroIcon')).toBeTruthy();
     expect(app.component('AeroForm')).toBeTruthy();
     expect(app.component('AeroFormItem')).toBeTruthy();
+    expect(app.component('AeroSelect')).toBeTruthy();
+    expect(app.component('AeroOption')).toBeTruthy();
+    expect(app.component('AeroInputNumber')).toBeTruthy();
+    expect(app.component('AeroDatePicker')).toBeTruthy();
   });
 });

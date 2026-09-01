@@ -1,0 +1,208 @@
+// AeroDatePicker 日期选择框样式：触发器 + 日历面板 + 日期网格。
+// 只消费 --aero-* 语义 token，明暗主题随 token 自动切换。
+.aero-date-picker {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+
+  &__trigger {
+    display: flex;
+    align-items: center;
+    position: relative;
+    min-height: 32px;
+    padding: 0 var(--aero-space-8);
+    border: 1px solid var(--aero-border-main);
+    border-radius: var(--aero-radius-main);
+    background: var(--aero-bg-main);
+    cursor: pointer;
+    transition: border-color 0.2s;
+    gap: var(--aero-space-4);
+
+    &:focus-within {
+      border-color: var(--aero-primary-6);
+    }
+  }
+
+  &--large .aero-date-picker__trigger {
+    min-height: 40px;
+    font-size: var(--aero-typography-size-03);
+  }
+
+  &--small .aero-date-picker__trigger {
+    min-height: 24px;
+    font-size: var(--aero-typography-size-01);
+  }
+
+  &__inner {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--aero-text-main);
+    font-size: inherit;
+    line-height: 1;
+
+    &::placeholder {
+      color: var(--aero-text-disabled);
+    }
+  }
+
+  &__clear {
+    color: var(--aero-text-tertiary);
+    cursor: pointer;
+    font-size: var(--aero-typography-size-03);
+    line-height: 1;
+
+    &:hover {
+      color: var(--aero-text-main);
+    }
+  }
+
+  // 下拉箭头：CSS 绘制三角
+  &__arrow {
+    width: 0;
+    height: 0;
+    margin-left: auto;
+    flex-shrink: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid var(--aero-text-tertiary);
+    transition: transform 0.2s;
+  }
+
+  &.is-open .aero-date-picker__arrow {
+    transform: rotate(180deg);
+  }
+
+  &.is-disabled {
+    .aero-date-picker__trigger {
+      opacity: var(--aero-opacity-disabled);
+      cursor: not-allowed;
+    }
+  }
+
+  // 日历面板：teleport 到 body，经 usePopper 定位
+  &__panel {
+    position: fixed;
+    z-index: 2000;
+    box-sizing: border-box;
+    margin-top: var(--aero-space-2);
+    padding: var(--aero-space-4);
+    border: 1px solid var(--aero-border-main);
+    border-radius: var(--aero-radius-main);
+    background: var(--aero-bg-main);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  }
+}
+
+// 日期网格
+.aero-date-table {
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--aero-space-4);
+  }
+
+  &__title {
+    font-size: var(--aero-typography-size-02);
+    color: var(--aero-text-main);
+  }
+
+  &__nav {
+    border: none;
+    background: transparent;
+    color: var(--aero-text-tertiary);
+    cursor: pointer;
+    padding: var(--aero-space-2);
+
+    &:hover {
+      color: var(--aero-primary-6);
+    }
+  }
+
+  &__weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: var(--aero-space-2);
+  }
+
+  &__weekday {
+    text-align: center;
+    font-size: var(--aero-typography-size-01);
+    color: var(--aero-text-tertiary);
+    line-height: var(--aero-typography-line-height-03);
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--aero-space-1);
+  }
+
+  &__cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--aero-radius-small);
+    color: var(--aero-text-main);
+    font-size: var(--aero-typography-size-02);
+    cursor: pointer;
+
+    &:hover:not(.is-disabled) {
+      background: var(--aero-fill-hover);
+    }
+
+    &.is-other-month {
+      color: var(--aero-text-disabled);
+    }
+
+    &.is-selected {
+      background: var(--aero-primary-6);
+      color: var(--aero-text-inverse);
+    }
+
+    &.is-disabled {
+      color: var(--aero-text-disabled);
+      opacity: var(--aero-opacity-disabled);
+      cursor: not-allowed;
+
+      &:hover {
+        background: transparent;
+      }
+    }
+
+    &.is-range {
+      background: var(--aero-primary-1);
+      border-radius: 0;
+    }
+
+    &.is-range-start {
+      background: var(--aero-primary-6);
+      color: var(--aero-text-inverse);
+      border-top-left-radius: var(--aero-radius-small);
+      border-bottom-left-radius: var(--aero-radius-small);
+    }
+
+    &.is-range-end {
+      background: var(--aero-primary-6);
+      color: var(--aero-text-inverse);
+      border-top-right-radius: var(--aero-radius-small);
+      border-bottom-right-radius: var(--aero-radius-small);
+    }
+  }
+}
+
+// 面板过渡
+.aero-date-picker-enter-active,
+.aero-date-picker-leave-active {
+  transition: opacity 0.15s;
+}
+
+.aero-date-picker-enter-from,
+.aero-date-picker-leave-to {
+  opacity: 0;
+}

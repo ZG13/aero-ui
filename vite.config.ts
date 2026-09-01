@@ -28,7 +28,7 @@ export default defineConfig({
       formats: ['es', 'cjs'],
     },
     rollupOptions: {
-      external: ['vue', '@vueuse/core', 'vue-i18n'],
+      external: ['vue', '@vueuse/core', 'vue-i18n', 'dayjs'],
       output: [
         {
           format: 'es',

@@ -34,7 +34,9 @@ export default defineConfig({
                 { text: 'Input 输入框', link: '/zh-CN/components/input' },
                 { text: 'Icon 图标', link: '/zh-CN/components/icon' },
                 { text: 'Form 表单', link: '/zh-CN/components/form' },
-                { text: 'Select 下拉选择', link: '/zh-CN/components/select' }
+                { text: 'Select 下拉选择', link: '/zh-CN/components/select' },
+                { text: 'InputNumber 数字输入框', link: '/zh-CN/components/input-number' },
+                { text: 'DatePicker 日期选择框', link: '/zh-CN/components/date-picker' }
               ]
             }
           ]
@@ -60,7 +62,9 @@ export default defineConfig({
                 { text: 'Input', link: '/en-US/components/input' },
                 { text: 'Icon', link: '/en-US/components/icon' },
                 { text: 'Form', link: '/en-US/components/form' },
-                { text: 'Select', link: '/en-US/components/select' }
+                { text: 'Select', link: '/en-US/components/select' },
+                { text: 'InputNumber', link: '/en-US/components/input-number' },
+                { text: 'DatePicker', link: '/en-US/components/date-picker' }
               ]
             }
           ]

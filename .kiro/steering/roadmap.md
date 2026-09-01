@@ -41,4 +41,7 @@
 
 ## Phase 2 — 表单能力
 
-- [ ] form — `AeroForm`/`AeroFormItem`：表单容器与表单项，对齐 element-plus 的 model/rules/布局 API，async-validator 校验（严格类型封装），size/disabled context 传递（改造 Input 消费）。Dependencies: core-components, theme, i18n
+- [x] form — `AeroForm`/`AeroFormItem`：表单容器与表单项，对齐 element-plus 的 model/rules/布局 API，async-validator 校验（严格类型封装），size/disabled context 传递（改造 Input 消费）。Dependencies: core-components, theme, i18n
+- [x] select — `AeroSelect`/`AeroOption`：下拉选择，首个真实表单控件，落地 form 上下文契约。Dependencies: form, core-components, theme, i18n
+- [x] input-number — `AeroInputNumber`：数字输入框，右侧步进按钮 + 数值逻辑（step/min/max/precision/step-strictly），消费 form 上下文。Dependencies: form, core-components, theme, i18n
+- [x] date-picker — `AeroDatePicker`：日期选择框（date + daterange），日历面板 + dayjs + 通用弹层定位 `usePopper`，消费 form 上下文。Dependencies: form, core-components, theme, i18n, dayjs
