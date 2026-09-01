@@ -1,5 +1,11 @@
+// element-plus 图标规范：<i> 标签承载 font-size / color，内嵌 SVG 以 1em 随字号缩放
 .aero-icon {
-  display: inline-block;
-  vertical-align: middle;
-  line-height: 0;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 1em;
+  height: 1em;
+  line-height: 1em;
+  fill: currentColor;
 }

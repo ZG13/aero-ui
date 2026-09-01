@@ -36,12 +36,26 @@
     font-size: var(--aero-typography-size-01);
   }
 
-  &__placeholder {
+  // 浮动占位 label：空态居中充当占位文案，有值/展开时上浮吸附到上边框（对齐 AeroInput）
+  &__label {
+    position: absolute;
+    left: calc(var(--aero-space-8) - var(--aero-space-2));
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: calc(100% - var(--aero-space-8) * 2 - var(--aero-space-10));
+    padding: 0 var(--aero-space-2);
     color: var(--aero-text-disabled);
-    flex: 1;
+    font-size: inherit;
+    line-height: 1;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    pointer-events: none;
+    transition:
+      top 0.15s ease,
+      transform 0.15s ease,
+      font-size 0.15s ease,
+      color 0.15s ease;
   }
 
   &__value {
@@ -92,7 +106,7 @@
     min-width: 0;
   }
 
-  // 清空按钮：element-plus 圆形 hover 效果（默认 placeholder 灰，hover 变深 + 浅灰圆底）
+  // 清空按钮：element-plus 风格，默认 placeholder 灰（#a8abb2），hover 变深 + 浅灰圆底
   &__clear {
     display: inline-flex;
     align-items: center;
@@ -101,7 +115,7 @@
     width: 24px;
     height: 24px;
     border-radius: var(--aero-radius-full);
-    color: var(--aero-text-disabled);
+    color: #a8abb2;
     cursor: pointer;
     transition:
       color 0.2s,
@@ -114,9 +128,12 @@
   }
 
   // 下拉箭头：CSS 绘制三角（currentColor，随明暗自动适配）
+  // margin-left: auto 使箭头在无填充内容（空值/disabled/clearable 无值）时也靠右
   &__arrow {
     width: 0;
     height: 0;
+    margin-left: auto;
+    flex-shrink: 0;
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
     border-top: 5px solid var(--aero-text-tertiary);
@@ -126,6 +143,18 @@
   // 展开态：箭头旋转朝上
   &.is-open .aero-select__arrow {
     transform: rotate(180deg);
+  }
+
+  // 上浮态：label 吸附到上边框，用背景色切开边框
+  &.is-float .aero-select__label {
+    top: 0;
+    font-size: var(--aero-typography-size-01);
+    background: var(--aero-bg-main);
+  }
+
+  // small 尺寸的上浮 label 字号更小，避免在 24px 高输入框内过大
+  &.is-float.aero-select--small .aero-select__label {
+    font-size: var(--aero-typography-size-00);
   }
 
   // 禁用态

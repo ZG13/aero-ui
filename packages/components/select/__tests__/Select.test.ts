@@ -37,7 +37,16 @@ describe('AeroSelect', () => {
     const wrapper = mountSelect({ placeholder: '请选择' }, [
       { label: 'A', value: 'a' },
     ]);
-    expect(wrapper.find('.aero-select__placeholder').text()).toBe('请选择');
+    expect(wrapper.find('.aero-select__label').text()).toBe('请选择');
+  });
+
+  it('有值时占位 label 上浮到边框', async () => {
+    const wrapper = mountSelect({ modelValue: 'b', placeholder: '请选择' }, [
+      { label: 'Alpha', value: 'a' },
+      { label: 'Beta', value: 'b' },
+    ]);
+    await nextTick();
+    expect(wrapper.find('.aero-select').classes()).toContain('is-float');
   });
 
   it('有值时回显匹配选项的 label', async () => {
@@ -85,6 +94,10 @@ describe('AeroSelect', () => {
     const wrapper = mountSelect({ modelValue: 'a', clearable: true }, [
       { label: 'Alpha', value: 'a' },
     ]);
+    await nextTick();
+    // 清空入口仅在聚焦或悬浮时展示
+    expect(wrapper.find('.aero-select__clear').exists()).toBe(false);
+    await wrapper.trigger('mouseenter');
     await nextTick();
     const clear = wrapper.find('.aero-select__clear');
     expect(clear.exists()).toBe(true);

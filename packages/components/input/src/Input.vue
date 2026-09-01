@@ -33,6 +33,7 @@ const disabled = computed(() => inheritedDisabled.value);
 const placeholder = computed(() => props.placeholder ?? t('components.input.placeholder'));
 
 const focused = ref(false);
+const hovering = ref(false);
 
 // 占位文案是否有值（number 0 也视为有值）
 const hasValue = computed(
@@ -42,7 +43,14 @@ const hasValue = computed(
 // Material outlined 风格：获得焦点或有值时，占位 label 上浮吸附到上边框。
 const isFloating = computed(() => focused.value || hasValue.value);
 
-const showClear = computed(() => props.clearable && !disabled.value && !!props.modelValue);
+// 清空入口：仅在聚焦或鼠标悬浮时展示（element-plus 行为），避免常态下占据视觉空间。
+const showClear = computed(
+  () =>
+    props.clearable &&
+    !disabled.value &&
+    !!props.modelValue &&
+    (focused.value || hovering.value),
+);
 
 function handleInput(event: Event) {
   const value = (event.target as HTMLInputElement).value;
@@ -71,7 +79,12 @@ function handleClear() {
 </script>
 
 <template>
-  <div class="aero-input" :class="[`aero-input--${size}`, { 'is-disabled': disabled, 'is-float': isFloating, 'aero-input--static': !floating }]">
+  <div
+    class="aero-input"
+    :class="[`aero-input--${size}`, { 'is-disabled': disabled, 'is-float': isFloating, 'aero-input--static': !floating }]"
+    @mouseenter="hovering = true"
+    @mouseleave="hovering = false"
+  >
     <input
       class="aero-input__inner"
       :value="modelValue"
@@ -86,8 +99,9 @@ function handleClear() {
       v-if="showClear"
       class="aero-input__clear"
       name="close"
-      :size="10"
+      :size="12"
       color="currentColor"
+      @mousedown.prevent
       @click="handleClear"
     />
   </div>

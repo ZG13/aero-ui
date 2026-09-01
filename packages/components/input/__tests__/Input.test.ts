@@ -33,11 +33,22 @@ describe('AeroInput', () => {
 
   it('clearable 有值时展示清空入口，点击派发 clear 并清空', async () => {
     const wrapper = mount(AeroInput, { props: { modelValue: 'abc', clearable: true } });
+    // 清空入口仅在聚焦或悬浮时展示
+    expect(wrapper.find('.aero-input__clear').exists()).toBe(false);
+    await wrapper.trigger('mouseenter');
     const clear = wrapper.find('.aero-input__clear');
     expect(clear.exists()).toBe(true);
     await clear.trigger('click');
     expect(wrapper.emitted('clear')).toBeTruthy();
     expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual(['']);
+  });
+
+  it('聚焦时 clearable 展示清空入口，失焦后隐藏', async () => {
+    const wrapper = mount(AeroInput, { props: { modelValue: 'abc', clearable: true } });
+    await wrapper.find('input').trigger('focus');
+    expect(wrapper.find('.aero-input__clear').exists()).toBe(true);
+    await wrapper.find('input').trigger('blur');
+    expect(wrapper.find('.aero-input__clear').exists()).toBe(false);
   });
 
   it('无值时 clearable 不展示清空入口', () => {

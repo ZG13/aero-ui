@@ -63,6 +63,9 @@ const hasValue = computed(() =>
       selectedValue.value !== '',
 );
 
+// 浮动占位：有值或展开时 placeholder 上浮吸附到上边框（对齐 AeroInput floating）
+const isFloat = computed(() => hasValue.value || open.value);
+
 // —— 选项注册（AeroOption 挂载/卸载时维护） ——
 const options = ref<SelectOption[]>([]);
 
@@ -248,7 +251,17 @@ watch(open, (value) => {
 });
 
 // —— 清空 ——
-const showClear = computed(() => props.clearable && !disabled.value && hasValue.value);
+// 清空入口：仅在聚焦或鼠标悬浮时展示（element-plus 行为），避免常态下占据视觉空间。
+const focused = ref(false);
+const hovering = ref(false);
+
+const showClear = computed(
+  () =>
+    props.clearable &&
+    !disabled.value &&
+    hasValue.value &&
+    (focused.value || hovering.value),
+);
 
 function clear(): void {
   if (props.multiple) {
@@ -342,12 +355,21 @@ function handleBlur(): void {
     class="aero-select"
     :class="[
       `aero-select--${size}`,
-      { 'is-disabled': disabled, 'is-open': open, 'is-multiple': multiple },
+      {
+        'is-disabled': disabled,
+        'is-open': open,
+        'is-multiple': multiple,
+        'is-float': isFloat,
+      },
     ]"
     role="combobox"
     aria-haspopup="listbox"
     :aria-expanded="open"
     :aria-disabled="disabled || undefined"
+    @mouseenter="hovering = true"
+    @mouseleave="hovering = false"
+    @focusin="focused = true"
+    @focusout="focused = false"
     @blur="handleBlur"
   >
     <div
@@ -356,50 +378,47 @@ function handleBlur(): void {
       @click="toggle"
       @keydown="handleKeydown"
     >
-      <!-- 可搜索态：单选/多选均渲染输入框，用 filterDisplay 作为显示值 -->
+      <!-- 浮动占位 label：空态居中充当占位文案，有值/展开时上浮吸附到上边框 -->
+      <span class="aero-select__label" aria-hidden="true">{{ placeholder }}</span>
+
+      <!-- 可搜索态：单选/多选均渲染输入框，用 filterDisplay 作为显示值；
+           原生 placeholder 交给浮动 label，这里置空仅保留可访问性语义 -->
       <input
         v-if="filterable"
         class="aero-select__filter"
         :value="filterDisplay"
-        :placeholder="placeholder"
+        placeholder=""
         @input="onFilterInput"
         @focus="onFilterFocus"
         @click.stop
       />
       <template v-else>
-        <span
-          v-if="!multiple && displayValue === ''"
-          class="aero-select__placeholder"
-        >
-          {{ placeholder }}
-        </span>
-        <span v-else-if="!multiple" class="aero-select__value">
+        <span v-if="!multiple && hasValue" class="aero-select__value">
           {{ displayValue }}
         </span>
-        <template v-else>
-          <span class="aero-select__tags">
-            <span
-              v-for="value in selectedValues"
-              :key="String(value)"
-              class="aero-select__tag"
-            >
-              <span class="aero-select__tag-label">{{ labelOf(value) }}</span>
-              <AeroIcon
-                class="aero-select__tag-close"
-                name="close"
-                @click.stop="removeTag(value)"
-              />
-            </span>
+        <span v-else-if="multiple" class="aero-select__tags">
+          <span
+            v-for="value in selectedValues"
+            :key="String(value)"
+            class="aero-select__tag"
+          >
+            <span class="aero-select__tag-label">{{ labelOf(value) }}</span>
+            <AeroIcon
+              class="aero-select__tag-close"
+              name="close"
+              @click.stop="removeTag(value)"
+            />
           </span>
-        </template>
+        </span>
       </template>
 
       <AeroIcon
         v-if="showClear"
         class="aero-select__clear"
         name="close"
-        :size="10"
+        :size="12"
         color="currentColor"
+        @mousedown.prevent
         @click.stop="clear"
       />
       <span class="aero-select__arrow" aria-hidden="true"></span>

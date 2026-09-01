@@ -72,7 +72,7 @@ describe('AeroButton', () => {
       slots: { default: '搜索' },
     });
     const children = wrapper.find('button').element.children;
-    expect(children[children.length - 1].tagName.toLowerCase()).toBe('svg');
+    expect(children[children.length - 1].tagName.toLowerCase()).toBe('i');
   });
 
   it('导出对象带 install 方法', () => {
