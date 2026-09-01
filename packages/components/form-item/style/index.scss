@@ -1,19 +1,22 @@
-// AeroFormItem 表单项样式：label + content + error 的行结构，
-// 以及错误态 / 必填态 / 校验中态。只消费 --aero-* 语义 token。
+// AeroFormItem 表单项样式：对齐 element-plus 的 label / content / error 结构。
+// 只消费 --aero-* 语义 token（18px 垂直间距为 element-plus 精确值，无对应 token）。
 .aero-form-item {
   display: flex;
   align-items: flex-start;
-  gap: var(--aero-space-8);
   box-sizing: border-box;
   font-size: var(--aero-typography-size-02);
+  // 垂直间距由表单项自身 margin-bottom 承担（element-plus 经典值 18px）
+  margin-bottom: 18px;
 
-  // 标签：不收缩，字号继承表单级 size
+  // 标签：固定高度 + line-height 垂直居中（随表单 size 缩放），右留白分隔内容
   &__label {
     flex-shrink: 0;
-    padding-top: var(--aero-space-3);
+    height: 32px;
+    line-height: 32px;
+    padding: 0 var(--aero-space-12) 0 0;
     color: var(--aero-text-main);
     font-size: inherit;
-    line-height: var(--aero-typography-line-height-03);
+    text-align: right;
   }
 
   // 必填星号：由模板渲染的 <span class="aero-form-item__required">*</span>
@@ -22,19 +25,24 @@
     margin-right: var(--aero-space-1);
   }
 
-  // 内容区：包裹默认插槽，并作为状态图标的定位上下文
+  // 内容区：包裹默认插槽，作为错误消息与状态图标的定位上下文
   &__content {
     flex: 1;
     min-width: 0;
     position: relative;
+    line-height: 32px;
+    font-size: inherit;
   }
 
-  // 错误消息：小字号，语义错误色
+  // 错误消息：绝对定位悬浮于内容下方，不推开布局（element-plus 特征）
   &__error {
-    margin-top: var(--aero-space-2);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding-top: var(--aero-space-1);
     color: var(--aero-danger-6);
     font-size: var(--aero-typography-size-01);
-    line-height: var(--aero-typography-line-height-01);
+    line-height: 1;
   }
 
   // 状态图标：绝对定位到内容区右侧（对齐输入框）
@@ -47,12 +55,8 @@
     pointer-events: none;
   }
 
-  // 错误态：标签以语义错误色强调，内部控件的边框同步转为危险色
+  // 错误态：仅内部控件的边框转为危险色，label 保持常规色
   &.is-error {
-    .aero-form-item__label {
-      color: var(--aero-danger-6);
-    }
-
     .aero-input {
       border-color: var(--aero-danger-6);
     }

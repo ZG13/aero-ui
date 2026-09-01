@@ -4,26 +4,30 @@
   display: block;
   box-sizing: border-box;
 
-  // 默认垂直堆叠：相邻表单项之间以垂直间距分隔
-  > .aero-form-item + .aero-form-item {
-    margin-top: var(--aero-space-16);
-  }
-
-  // 行内布局：单行水平排列，空间不足时换行
+  // 行内布局：单行水平排列，空间不足时换行；垂直间距归零，改用水平间距
   &--inline {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    gap: var(--aero-space-8) var(--aero-space-12);
 
-    > .aero-form-item + .aero-form-item {
-      margin-top: 0;
+    .aero-form-item {
+      margin-bottom: 0;
+      margin-right: var(--aero-space-16);
     }
   }
 
-  // 尺寸修饰符：影响标签/错误文案字号（控件自身尺寸由 Input 的 size 控制）
+  // 尺寸修饰符：label 高度与字号随控件尺寸缩放（对齐 element-plus 的 40/32/24）
   &--large .aero-form-item {
     font-size: var(--aero-typography-size-03);
+
+    .aero-form-item__label {
+      height: 40px;
+      line-height: 40px;
+    }
+
+    .aero-form-item__content {
+      line-height: 40px;
+    }
   }
 
   &--main .aero-form-item {
@@ -32,9 +36,18 @@
 
   &--small .aero-form-item {
     font-size: var(--aero-typography-size-01);
+
+    .aero-form-item__label {
+      height: 24px;
+      line-height: 24px;
+    }
+
+    .aero-form-item__content {
+      line-height: 24px;
+    }
   }
 
-  // 标签位置：top（标签在内容上方）
+  // 标签位置：top（标签在内容上方，自然高度 + 下方留白）
   &--label-top {
     .aero-form-item {
       flex-direction: column;
@@ -42,7 +55,11 @@
     }
 
     .aero-form-item__label {
+      display: inline-block;
       text-align: left;
+      height: auto;
+      line-height: inherit;
+      padding: 0 0 var(--aero-space-3);
     }
   }
 
