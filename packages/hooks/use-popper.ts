@@ -3,11 +3,16 @@ import { computed, onBeforeUnmount, onMounted, ref, type ComputedRef, type Ref }
 export interface UsePopperOptions {
   trigger: Ref<HTMLElement | null>;
   panel: Ref<HTMLElement | null>;
+  /**
+   * 面板宽度是否跟随触发器宽度。默认 true（如 Select 场景）；
+   * 设为 false 时面板宽度由内容决定（如 DatePicker 固定日历宽度）。
+   */
+  matchTriggerWidth?: boolean;
 }
 
 export interface UsePopperReturn {
   open: Ref<boolean>;
-  panelStyle: ComputedRef<{ top: string; left: string; width: string }>;
+  panelStyle: ComputedRef<{ top: string; left: string; width?: string }>;
   openPanel: () => void;
   close: () => void;
   toggle: () => void;
@@ -21,7 +26,7 @@ export interface UsePopperReturn {
  * getBoundingClientRect 计算 fixed + viewport 坐标。
  */
 export function usePopper(options: UsePopperOptions): UsePopperReturn {
-  const { trigger, panel } = options;
+  const { trigger, panel, matchTriggerWidth = true } = options;
   const open = ref(false);
 
   const panelStyle = computed(() => {
@@ -30,7 +35,7 @@ export function usePopper(options: UsePopperOptions): UsePopperReturn {
     return {
       top: `${rect.bottom}px`,
       left: `${rect.left}px`,
-      width: `${rect.width}px`,
+      width: matchTriggerWidth ? `${rect.width}px` : undefined,
     };
   });
 

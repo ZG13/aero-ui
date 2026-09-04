@@ -8,6 +8,7 @@ import AeroFormItem from 'aero-ui/components/form-item'
 import AeroSelect, { AeroOption } from 'aero-ui/components/select'
 import AeroInputNumber from 'aero-ui/components/input-number'
 import AeroDatePicker from 'aero-ui/components/date-picker'
+import AeroRadio, { AeroRadioGroup, AeroRadioButton } from 'aero-ui/components/radio'
 import 'aero-ui/theme/index.scss'
 import 'aero-ui/components/button/style/index.scss'
 import 'aero-ui/components/input/style/index.scss'
@@ -17,6 +18,7 @@ import 'aero-ui/components/form-item/style/index.scss'
 import 'aero-ui/components/select/style/index.scss'
 import 'aero-ui/components/input-number/style/index.scss'
 import 'aero-ui/components/date-picker/style/index.scss'
+import 'aero-ui/components/radio/style/index.scss'
 import ThemeSwitch from './ThemeSwitch.vue'
 import DemoBlock from './DemoBlock.vue'
 import IconGrid from './IconGrid.vue'
@@ -34,6 +36,9 @@ export default {
     app.use(AeroOption)
     app.use(AeroInputNumber)
     app.use(AeroDatePicker)
+    app.use(AeroRadio)
+    app.use(AeroRadioGroup)
+    app.use(AeroRadioButton)
     app.component('DemoBlock', DemoBlock)
     app.component('IconGrid', IconGrid)
   },

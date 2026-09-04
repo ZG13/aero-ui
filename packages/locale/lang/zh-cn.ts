@@ -13,6 +13,15 @@ const zhCn = {
       placeholder: '请选择',
       empty: '无匹配选项',
     },
+    datePicker: {
+      datePlaceholder: '请选择日期',
+      startPlaceholder: '开始日期',
+      endPlaceholder: '结束日期',
+      today: '今天',
+      year: '年',
+      month: '月',
+      weekdays: ['日', '一', '二', '三', '四', '五', '六'],
+    },
     form: {
       rules: {
         required: '该字段为必填项',

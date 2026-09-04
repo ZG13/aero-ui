@@ -13,6 +13,15 @@ const en = {
       placeholder: 'Please select',
       empty: 'No matching options',
     },
+    datePicker: {
+      datePlaceholder: 'Select date',
+      startPlaceholder: 'Start date',
+      endPlaceholder: 'End date',
+      today: 'Today',
+      year: 'Year',
+      month: 'Month',
+      weekdays: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+    },
     form: {
       rules: {
         required: 'This field is required',

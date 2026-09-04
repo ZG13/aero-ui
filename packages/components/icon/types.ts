@@ -1,5 +1,5 @@
 export interface IconProps {
-  /** 内置图标集的 key，如 search / close / loading / settings / link */
+  /** 内置图标集的 key，如 search / close / loading / settings / link / calendar / arrow-left 等 */
   name: string;
   /** 尺寸，数字按 px，默认 1em */
   size?: number | string;

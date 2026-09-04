@@ -7,6 +7,7 @@ import { AeroFormItem } from './components/form-item';
 import { AeroSelect, AeroOption } from './components/select';
 import { AeroInputNumber } from './components/input-number';
 import { AeroDatePicker } from './components/date-picker';
+import { AeroRadio, AeroRadioGroup, AeroRadioButton } from './components/radio';
 import type { App } from 'vue';
 
 export * from './components';
@@ -23,6 +24,9 @@ const AeroUI = {
     app.use(AeroOption);
     app.use(AeroInputNumber);
     app.use(AeroDatePicker);
+    app.use(AeroRadio);
+    app.use(AeroRadioGroup);
+    app.use(AeroRadioButton);
   },
 };
 

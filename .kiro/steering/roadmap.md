@@ -45,3 +45,4 @@
 - [x] select — `AeroSelect`/`AeroOption`：下拉选择，首个真实表单控件，落地 form 上下文契约。Dependencies: form, core-components, theme, i18n
 - [x] input-number — `AeroInputNumber`：数字输入框，右侧步进按钮 + 数值逻辑（step/min/max/precision/step-strictly），消费 form 上下文。Dependencies: form, core-components, theme, i18n
 - [x] date-picker — `AeroDatePicker`：日期选择框（date + daterange），日历面板 + dayjs + 通用弹层定位 `usePopper`，消费 form 上下文。Dependencies: form, core-components, theme, i18n, dayjs
+- [ ] radio — `AeroRadio` / `AeroRadioGroup` / `AeroRadioButton`：单选（圆点 + 按钮样式），对齐 element-plus radio 家族 API，消费 form 上下文。Dependencies: form, core-components, theme, i18n

@@ -1,5 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vitepress'
+import { transformSync } from 'esbuild'
 
 // aero-ui 源码别名：文档站 dev 阶段直接从源码消费组件与主题，无需先构建 dist。
 // foundation 已建立 `aero-ui` / `aero-ui/*` 别名契约，这里在 VitePress 侧声明解析映射。
@@ -36,7 +37,8 @@ export default defineConfig({
                 { text: 'Form 表单', link: '/zh-CN/components/form' },
                 { text: 'Select 下拉选择', link: '/zh-CN/components/select' },
                 { text: 'InputNumber 数字输入框', link: '/zh-CN/components/input-number' },
-                { text: 'DatePicker 日期选择框', link: '/zh-CN/components/date-picker' }
+                { text: 'DatePicker 日期选择框', link: '/zh-CN/components/date-picker' },
+                { text: 'Radio 单选框', link: '/zh-CN/components/radio' }
               ]
             }
           ]
@@ -64,7 +66,8 @@ export default defineConfig({
                 { text: 'Form', link: '/en-US/components/form' },
                 { text: 'Select', link: '/en-US/components/select' },
                 { text: 'InputNumber', link: '/en-US/components/input-number' },
-                { text: 'DatePicker', link: '/en-US/components/date-picker' }
+                { text: 'DatePicker', link: '/en-US/components/date-picker' },
+                { text: 'Radio', link: '/en-US/components/radio' }
               ]
             }
           ]
@@ -92,13 +95,30 @@ export default defineConfig({
       md.renderer.rules.fence = (tokens, idx, options, env, self) => {
         const token = tokens[idx]
         if (token.info.trim() === 'vue') {
+          // DemoBlock 在浏览器运行时编译，没有 esbuild 的 TS 剥离管线；
+          // 构建期先把 <script lang="ts"> 里的 TS 语法转为 JS（如 ref<[string, string]>()、
+          // (date: Date) 参数标注），避免 new Function 执行残留 TS 报语法错误。
+          // 传给 DemoBlock 的 source 用转换后代码，「显示代码」区仍展示 TS 原样。
+          // 注意：markdown-it 的 fence 渲染器是同步的，必须用 esbuild 的 transformSync，
+          // 不能用 vite 的 transformWithEsbuild（异步，未 await 时 code 为 undefined）。
+          let source = token.content
+          const scriptRe = /(<script\b[^>]*\blang=["']ts["'][^>]*>)([\s\S]*?)(<\/script>)/
+          const matched = source.match(scriptRe)
+          if (matched) {
+            try {
+              const { code } = transformSync(matched[2], { loader: 'ts' })
+              source = source.replace(scriptRe, (_whole, open: string, _content: string, close: string) => open + code + close)
+            } catch {
+              // 转换失败保留原源码，由 DemoBlock 暴露运行时编译错误
+            }
+          }
           // 源码 + 用 VitePress 自带 shiki 高亮后的 HTML，均 base64 编码传入，
           // 使 <DemoBlock> 的「显示代码」区获得与站内代码块一致的高亮与明暗配色。
-          const source = Buffer.from(token.content, 'utf8').toString('base64')
+          const encoded = Buffer.from(source, 'utf8').toString('base64')
           const highlighted =
             options.highlight?.(token.content, 'vue', '') || md.utils.escapeHtml(token.content)
           const html = Buffer.from(highlighted, 'utf8').toString('base64')
-          return `<DemoBlock source="${source}" html="${html}" />\n`
+          return `<DemoBlock source="${encoded}" html="${html}" />\n`
         }
         return renderFence(tokens, idx, options, env, self)
       }

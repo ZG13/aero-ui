@@ -1,6 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import dayjs from 'dayjs';
-import { buildMonth, formatDate, isInRange, isSameDay, parseDate } from '../src/date';
+import {
+  buildMonth,
+  decadeStart,
+  formatDate,
+  isInRange,
+  isSameDay,
+  parseDate,
+  parseRangeValue,
+  parseStrict,
+  serializeDate,
+} from '../src/date';
 
 describe('date 纯函数', () => {
   it('parseDate 解析 Date/string/number 并返回 Dayjs', () => {
@@ -8,6 +18,14 @@ describe('date 纯函数', () => {
     expect(parseDate(new Date(2024, 0, 15))?.format('YYYY-MM-DD')).toBe('2024-01-15');
     expect(parseDate('')).toBeNull();
     expect(parseDate('invalid')).toBeNull();
+    expect(parseDate(null)).toBeNull();
+  });
+
+  it('parseStrict 按 format 严格解析手动输入', () => {
+    expect(parseStrict('2024-01-15', 'YYYY-MM-DD')?.format('YYYY-MM-DD')).toBe('2024-01-15');
+    expect(parseStrict('2024/1/5', 'YYYY/MM/DD')).toBeNull();
+    expect(parseStrict('invalid', 'YYYY-MM-DD')).toBeNull();
+    expect(parseStrict('  ', 'YYYY-MM-DD')).toBeNull();
   });
 
   it('formatDate 格式化日期', () => {
@@ -17,13 +35,26 @@ describe('date 纯函数', () => {
     expect(formatDate(null, 'YYYY-MM-DD')).toBe('');
   });
 
-  it('buildMonth 生成 6×7 共 42 天，含前后月补位', () => {
+  it('serializeDate 按 valueFormat 派发字符串或 Date', () => {
+    const d = dayjs('2024-03-05');
+    expect(serializeDate(d, 'YYYY/MM/DD')).toBe('2024/03/05');
+    expect(serializeDate(d)).toBeInstanceOf(Date);
+  });
+
+  it('buildMonth 生成 6×7 共 42 天，含前后月补位（默认周日起始）', () => {
     const d = dayjs('2024-01-15');
     const days = buildMonth(d);
     expect(days).toHaveLength(42);
-    // 2024-01-01 是周一，startOf('week') 回到周日 2023-12-31
+    // 2024-01-01 是周一，周日起始回退到 2023-12-31
     expect(days[0].format('YYYY-MM-DD')).toBe('2023-12-31');
     expect(days[days.length - 1].format('YYYY-MM-DD')).toBe('2024-02-10');
+  });
+
+  it('buildMonth 支持自定义周起始日', () => {
+    // 2024-01-01 是周一，firstDayOfWeek=1（周一）时月初即首格
+    const days = buildMonth(dayjs('2024-01-15'), 1);
+    expect(days[0].format('YYYY-MM-DD')).toBe('2024-01-01');
+    expect(days[41].format('YYYY-MM-DD')).toBe('2024-02-11');
   });
 
   it('isSameDay 判断同一天', () => {
@@ -32,12 +63,28 @@ describe('date 纯函数', () => {
     expect(isSameDay(null, dayjs('2024-01-15'))).toBe(false);
   });
 
-  it('isInRange 判断闭区间', () => {
+  it('isInRange 判断闭区间（自动归一化方向）', () => {
     const start = dayjs('2024-01-10');
     const end = dayjs('2024-01-20');
-    expect(isInRange(dayjs('2024-01-10'), [start, end])).toBe(true);
-    expect(isInRange(dayjs('2024-01-20'), [start, end])).toBe(true);
-    expect(isInRange(dayjs('2024-01-09'), [start, end])).toBe(false);
-    expect(isInRange(dayjs('2024-01-21'), [start, end])).toBe(false);
+    expect(isInRange(dayjs('2024-01-10'), start, end)).toBe(true);
+    expect(isInRange(dayjs('2024-01-20'), start, end)).toBe(true);
+    expect(isInRange(dayjs('2024-01-09'), start, end)).toBe(false);
+    expect(isInRange(dayjs('2024-01-21'), start, end)).toBe(false);
+    // 反向传入同样生效
+    expect(isInRange(dayjs('2024-01-15'), end, start)).toBe(true);
+  });
+
+  it('decadeStart 返回十年区间起始', () => {
+    expect(decadeStart(2024)).toBe(2020);
+    expect(decadeStart(2020)).toBe(2020);
+    expect(decadeStart(1999)).toBe(1990);
+  });
+
+  it('parseRangeValue 提取范围起止', () => {
+    const [s, e] = parseRangeValue(['2024-01-01', '2024-01-31']);
+    expect(s?.format('YYYY-MM-DD')).toBe('2024-01-01');
+    expect(e?.format('YYYY-MM-DD')).toBe('2024-01-31');
+    expect(parseRangeValue(null)).toEqual([null, null]);
+    expect(parseRangeValue('2024-01-01')).toEqual([null, null]);
   });
 });

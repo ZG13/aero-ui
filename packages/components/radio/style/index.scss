@@ -1,0 +1,190 @@
+// AeroRadio 单选样式：圆点单选 / 分组容器 / 按钮单选。
+// 只消费 --aero-* 语义 token，明暗主题随 token 自动切换。
+// 按钮激活态默认兜底主色；组内下发 fill/textColor 时由组件行内样式覆盖（3.2 / 3.3）。
+
+.aero-radio {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  padding: 0 var(--aero-space-2);
+  color: var(--aero-text-main);
+  font-size: var(--aero-typography-size-02);
+  cursor: pointer;
+  user-select: none;
+
+  // 尺寸修饰符（默认 main 无修饰）
+  &--large {
+    font-size: var(--aero-typography-size-03);
+  }
+
+  &--small {
+    font-size: var(--aero-typography-size-01);
+  }
+
+  // 透明原生 radio 覆盖于视觉层之上：保留键盘聚焦与点击区域（5.1–5.3）
+  &__original {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    border: none;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  // 视觉圆点：未选中描边，选中填充主色（1.1 / 1.2）
+  &__dot {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    box-sizing: border-box;
+    border: 1px solid var(--aero-border-light);
+    border-radius: var(--aero-radius-full);
+    background: var(--aero-bg-main);
+    transition:
+      border-color 0.2s,
+      background-color 0.2s,
+      box-shadow 0.2s;
+  }
+
+  // 选项文案
+  &__text {
+    margin-left: var(--aero-space-2);
+    line-height: var(--aero-typography-line-height-02);
+    white-space: nowrap;
+  }
+
+  // 选中态：圆点填充主色（1.2）
+  &.is-checked {
+    color: var(--aero-primary-6);
+
+    .aero-radio__dot {
+      border-color: var(--aero-primary-6);
+      background: var(--aero-primary-6);
+      // 内圈镂空：外层填充主色 + 白色内圈构成圆点选中视觉
+      box-shadow: inset 0 0 0 3px var(--aero-bg-main);
+    }
+  }
+
+  // 键盘聚焦态：圆点描边高亮（5.2）
+  &:focus-within .aero-radio__dot {
+    border-color: var(--aero-primary-6);
+  }
+
+  // 禁用态（1.5）
+  &.is-disabled {
+    opacity: var(--aero-opacity-disabled);
+    cursor: not-allowed;
+
+    .aero-radio__original {
+      cursor: not-allowed;
+    }
+  }
+
+  // 外边框形态（1.6）：边框包裹 + 尺寸化内边距
+  &.is-border {
+    padding: 0 var(--aero-space-8);
+    border: 1px solid var(--aero-border-main);
+    border-radius: var(--aero-radius-main);
+    height: 32px;
+    transition: border-color 0.2s;
+
+    &.aero-radio--large {
+      height: 40px;
+    }
+
+    &.aero-radio--small {
+      height: 24px;
+    }
+
+    &.is-checked {
+      border-color: var(--aero-primary-6);
+    }
+  }
+}
+
+.aero-radio-group {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--aero-space-8);
+  font-size: var(--aero-typography-size-02);
+}
+
+.aero-radio-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 32px;
+  padding: 0 var(--aero-space-8);
+  border: 1px solid var(--aero-border-main);
+  border-radius: var(--aero-radius-main);
+  background: var(--aero-bg-main);
+  color: var(--aero-text-main);
+  font-size: var(--aero-typography-size-02);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s,
+    color 0.2s;
+
+  &--large {
+    height: 40px;
+    font-size: var(--aero-typography-size-03);
+  }
+
+  &--small {
+    height: 24px;
+    font-size: var(--aero-typography-size-01);
+  }
+
+  // 透明原生 radio 覆盖于视觉层之上：保留键盘聚焦与点击区域（5.1）
+  &__original {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    border: none;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  // 按钮文案：颜色继承根节点（未下发 textColor 时取 is-checked 默认反色）
+  &__text {
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  // 激活态兜底（未下发 fill/textColor 时）：主色背景 + 反色文字（3.2 / 3.3）。
+  // 组内下发 fill/textColor 时，行内样式在根节点覆盖此处背景与文字色。
+  &.is-checked {
+    border-color: var(--aero-primary-6);
+    background: var(--aero-primary-6);
+    color: var(--aero-text-inverse);
+  }
+
+  // 键盘聚焦态（5.2）
+  &:focus-within {
+    border-color: var(--aero-primary-6);
+  }
+
+  // 禁用态（3.4）
+  &.is-disabled {
+    opacity: var(--aero-opacity-disabled);
+    cursor: not-allowed;
+
+    .aero-radio-button__original {
+      cursor: not-allowed;
+    }
+  }
+}
